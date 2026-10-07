@@ -1,0 +1,34 @@
+.app-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.side-menu {
+  width: 240px;
+}
+
+mat-sidenav-content {
+  background: #f5f7fa;
+  overflow-x: hidden;
+}
+
+.app-toolbar {
+  height: 64px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 14px;
+}
+
+.page-content {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
