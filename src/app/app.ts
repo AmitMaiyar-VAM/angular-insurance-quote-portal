@@ -1,17 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-
-import { SideMenu } from './shared/components/side-menu/side-menu';
+import { Footer } from './shared/components/footer/footer';
+import { Header } from './shared/components/header/header';
+import { LeftMenu } from './shared/components/left-menu/left-menu';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSidenavModule, MatToolbarModule, SideMenu],
+  imports: [RouterOutlet, Header, LeftMenu, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
-  
-}
+export class App {}

@@ -1,30 +1,13 @@
-<mat-sidenav-container class="app-container">
+<app-header></app-header>
 
-  <mat-sidenav
-    mode="side"
-    opened
-    class="side-menu">
+<div class="app-layout">
 
-    <app-side-menu></app-side-menu>
+  <app-left-menu></app-left-menu>
 
-  </mat-sidenav>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
 
-  <mat-sidenav-content>
+</div>
 
-    <mat-toolbar class="app-toolbar">
-      <span>Insurance Quote Portal</span>
-
-      <span class="toolbar-spacer"></span>
-
-      <span class="user-name">
-        Welcome
-      </span>
-    </mat-toolbar>
-
-    <main class="page-content">
-      <router-outlet></router-outlet>
-    </main>
-
-  </mat-sidenav-content>
-
-</mat-sidenav-container>
+<app-footer></app-footer>
