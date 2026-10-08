@@ -1,5 +1,11 @@
 <div class="wizard-container">
 
+  @if (saveMessage) {
+    <div class="save-message">
+      {{ saveMessage }}
+    </div>
+  }
+
   <mat-card>
 
     <div class="wizard-header">
@@ -11,7 +17,9 @@
       <mat-icon>business</mat-icon>
     </div>
 
-    <mat-stepper linear>
+    <mat-stepper
+  linear
+  [selectedIndex]="savedStep">
 
       <!-- STEP 1 -->
       <mat-step [stepControl]="businessForm">

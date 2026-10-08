@@ -10,8 +10,13 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'quotes/wizard',
+    path: 'quotes/wizard/:id',
     component: QuoteWizard
+  },
+  {
+    path: 'quotes/wizard',
+    component: QuoteWizard,
+    pathMatch: 'full'
   },
   {
     path: 'quotes/details/:id',

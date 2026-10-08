@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ViewChild
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,10 +16,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { ActivatedRoute } from '@angular/router';
 
+import { Quote } from '../../models/quote.model';
+import { QuoteService } from '../../services/quote.service';
 
 @Component({
   selector: 'app-quote-wizard',
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     MatStepperModule,
@@ -28,7 +35,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule
   ],
   templateUrl: './quote-wizard.html',
-  styleUrl: './quote-wizard.css',
+  styleUrl: './quote-wizard.css'
 })
 export class QuoteWizard {
 
@@ -36,7 +43,16 @@ export class QuoteWizard {
   propertyForm: FormGroup;
   coverageForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  private quoteId: string | null = null;
+  savedStep = 0;
+
+  saveMessage = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private quoteService: QuoteService,
+    private route: ActivatedRoute
+  ) {
 
     this.businessForm = this.fb.group({
       businessName: ['', Validators.required],
@@ -96,11 +112,70 @@ export class QuoteWizard {
         Validators.min(0)
       ]]
     });
+
+    const quoteId = this.route.snapshot.paramMap.get('id');
+
+    if (quoteId) {
+      this.loadQuote(quoteId);
+    }
   }
 
-  saveProgress(): void {
-    console.log('Save progress');
+  private loadQuote(id: string): void {
+
+  const quote = this.quoteService.getQuoteById(id);
+
+  if (!quote) {
+    console.warn('Quote not found:', id);
+    return;
   }
+
+  this.quoteId = quote.id;
+
+  this.businessForm.patchValue(quote.businessInfo);
+  this.propertyForm.patchValue(quote.propertyInfo);
+  this.coverageForm.patchValue(quote.coverageInfo);
+
+  this.savedStep = Math.max(0, quote.currentStep - 1);
+}
+
+  saveProgress(): void {
+
+  const existingQuote = this.quoteId
+    ? this.quoteService.getQuoteById(this.quoteId)
+    : undefined;
+
+  const quote: Quote = {
+
+    id: this.quoteId ?? this.generateQuoteId(),
+
+    productType: 'CP',
+
+    status: 'Incomplete',
+
+    currentStep: this.getCurrentStep(),
+
+    businessInfo: this.businessForm.getRawValue(),
+
+    propertyInfo: this.propertyForm.getRawValue(),
+
+    coverageInfo: this.coverageForm.getRawValue(),
+
+    createdAt: existingQuote?.createdAt
+      ?? new Date().toISOString(),
+
+    updatedAt: new Date().toISOString()
+  };
+
+  this.quoteId = quote.id;
+
+  this.quoteService.saveQuote(quote);
+
+  this.saveMessage = `Quote ${quote.id} saved successfully.`;
+
+  setTimeout(() => {
+    this.saveMessage = '';
+  }, 3000);
+}
 
   submitQuote(): void {
 
@@ -109,6 +184,7 @@ export class QuoteWizard {
       this.propertyForm.invalid ||
       this.coverageForm.invalid
     ) {
+
       this.businessForm.markAllAsTouched();
       this.propertyForm.markAllAsTouched();
       this.coverageForm.markAllAsTouched();
@@ -116,6 +192,57 @@ export class QuoteWizard {
       return;
     }
 
-    console.log('Quote submitted');
+    const existingQuote = this.quoteId
+      ? this.quoteService.getQuoteById(this.quoteId)
+      : undefined;
+
+    const quote: Quote = {
+
+      id: this.quoteId ?? this.generateQuoteId(),
+
+      productType: 'CP',
+
+      status: 'Completed',
+
+      currentStep: 4,
+
+      businessInfo: this.businessForm.getRawValue(),
+
+      propertyInfo: this.propertyForm.getRawValue(),
+
+      coverageInfo: this.coverageForm.getRawValue(),
+
+      createdAt: existingQuote?.createdAt
+        ?? new Date().toISOString(),
+
+      updatedAt: new Date().toISOString()
+    };
+
+    this.quoteId = quote.id;
+
+    this.quoteService.saveQuote(quote);
+
+    console.log('Quote submitted:', quote);
+  }
+
+  private generateQuoteId(): string {
+    return 'CP-' + Date.now();
+  }
+
+  private getCurrentStep(): number {
+
+    if (!this.businessForm.valid) {
+      return 1;
+    }
+
+    if (!this.propertyForm.valid) {
+      return 2;
+    }
+
+    if (!this.coverageForm.valid) {
+      return 3;
+    }
+
+    return 4;
   }
 }
