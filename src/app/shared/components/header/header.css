@@ -1,0 +1,121 @@
+.app-header {
+  height: 64px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Left side */
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #1976d2;
+  color: white;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.application-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Right side */
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-icon-button {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  background: transparent;
+
+  border-radius: 50%;
+
+  color: #4b5563;
+
+  cursor: pointer;
+}
+
+.header-icon-button:hover {
+  background: #f3f4f6;
+}
+
+.header-icon-button mat-icon {
+  font-size: 22px;
+}
+
+/* Profile */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-left: 8px;
+  padding-left: 12px;
+
+  border-left: 1px solid #e5e7eb;
+}
+
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e3f2fd;
+  color: #1565c0;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.profile-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}

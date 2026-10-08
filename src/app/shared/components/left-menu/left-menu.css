@@ -1,0 +1,75 @@
+.left-menu {
+  position: fixed;
+
+  top: 64px;
+  left: 0;
+  bottom: 45px;
+
+  width: 230px;
+
+  background: #ffffff;
+
+  border-right: 1px solid #e5e7eb;
+
+  box-sizing: border-box;
+
+  z-index: 900;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 12px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  height: 48px;
+
+  padding: 0 14px;
+
+  margin-bottom: 6px;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  color: #4b5563;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.menu-item mat-icon {
+  font-size: 21px;
+
+  width: 21px;
+  height: 21px;
+}
+
+.menu-item:hover {
+  background: #f3f6fa;
+  color: #1565c0;
+}
+
+.menu-item.active {
+  background: #e3f2fd;
+  color: #1565c0;
+
+  font-weight: 600;
+}
+
+.menu-item.active mat-icon {
+  color: #1565c0;
+}

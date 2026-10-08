@@ -1,0 +1,50 @@
+<aside class="left-menu">
+  <nav class="menu">
+    <!-- Dashboard -->
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="menu-item"
+    >
+      <mat-icon>dashboard</mat-icon>
+
+      <span>Dashboard</span>
+    </a>
+
+    <!-- Quote List -->
+
+    <a
+      routerLink="/quotes"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="menu-item"
+    >
+      <mat-icon>description</mat-icon>
+
+      <span>Quote List</span>
+    </a>
+
+    <!-- New Quote -->
+
+    <a routerLink="/addQuote" routerLinkActive="active" class="menu-item">
+      <mat-icon>add_circle_outline</mat-icon>
+
+      <span>New Quote</span>
+    </a>
+
+    <!-- FAQ -->
+
+    <a
+      routerLink="/faq"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="menu-item"
+    >
+      <mat-icon>help_outline</mat-icon>
+
+      <span>FAQ</span>
+    </a>
+  </nav>
+</aside>
