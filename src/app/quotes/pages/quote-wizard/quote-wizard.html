@@ -1,1 +1,543 @@
-<p>quote-wizard works!</p>
+<div class="wizard-container">
+
+  @if (saveMessage) {
+    <div class="save-message">
+      {{ saveMessage }}
+    </div>
+  }
+
+  <mat-card>
+
+    <div class="wizard-header">
+      <div>
+        <h1>Commercial Property Quote</h1>
+        <p>Complete the following steps to create your quote.</p>
+      </div>
+
+      <mat-icon>business</mat-icon>
+    </div>
+
+    <mat-stepper
+  linear
+  [selectedIndex]="savedStep">
+
+      <!-- STEP 1 -->
+      <mat-step [stepControl]="businessForm">
+
+        <form [formGroup]="businessForm">
+
+          <ng-template matStepLabel>
+            Business Information
+          </ng-template>
+
+          <div class="step-content">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Name</mat-label>
+              <input
+                matInput
+                formControlName="businessName">
+
+              @if (businessForm.get('businessName')?.hasError('required')
+                   && businessForm.get('businessName')?.touched) {
+                <mat-error>
+                  Business name is required.
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Type</mat-label>
+
+              <mat-select formControlName="businessType">
+
+                <mat-option value="Retail">
+                  Retail
+                </mat-option>
+
+                <mat-option value="Office">
+                  Office
+                </mat-option>
+
+                <mat-option value="Warehouse">
+                  Warehouse
+                </mat-option>
+
+                <mat-option value="Restaurant">
+                  Restaurant
+                </mat-option>
+
+                <mat-option value="Manufacturing">
+                  Manufacturing
+                </mat-option>
+
+              </mat-select>
+
+              @if (businessForm.get('businessType')?.hasError('required')
+                   && businessForm.get('businessType')?.touched) {
+                <mat-error>
+                  Business type is required.
+                </mat-error>
+              }
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Contact Person</mat-label>
+
+              <input
+                matInput
+                formControlName="contactPerson">
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+
+              <input
+                matInput
+                type="email"
+                formControlName="email">
+
+              @if (businessForm.get('email')?.hasError('email')
+                   && businessForm.get('email')?.touched) {
+                <mat-error>
+                  Enter a valid email.
+                </mat-error>
+              }
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Phone</mat-label>
+
+              <input
+                matInput
+                formControlName="phone">
+
+              @if (businessForm.get('phone')?.hasError('pattern')
+                   && businessForm.get('phone')?.touched) {
+                <mat-error>
+                  Enter a valid 10-digit phone number.
+                </mat-error>
+              }
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Address</mat-label>
+
+              <input
+                matInput
+                formControlName="address">
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>City</mat-label>
+
+              <input
+                matInput
+                formControlName="city">
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>State</mat-label>
+
+              <input
+                matInput
+                formControlName="state">
+
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>ZIP Code</mat-label>
+
+              <input
+                matInput
+                formControlName="zipCode">
+
+            </mat-form-field>
+
+          </div>
+
+          <div class="step-actions">
+
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="saveProgress()">
+              Save Progress
+            </button>
+
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              [disabled]="businessForm.invalid">
+              Next
+            </button>
+
+          </div>
+
+        </form>
+
+      </mat-step>
+
+
+      <!-- STEP 2 -->
+      <mat-step [stepControl]="propertyForm">
+
+        <form [formGroup]="propertyForm">
+
+          <ng-template matStepLabel>
+            Property Information
+          </ng-template>
+
+          <div class="step-content">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Property Type</mat-label>
+
+              <mat-select formControlName="propertyType">
+
+                <mat-option value="Office">Office</mat-option>
+                <mat-option value="Retail">Retail</mat-option>
+                <mat-option value="Warehouse">Warehouse</mat-option>
+                <mat-option value="Restaurant">Restaurant</mat-option>
+
+              </mat-select>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Property Address</mat-label>
+
+              <input
+                matInput
+                formControlName="propertyAddress">
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Year Built</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="yearBuilt">
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Building Area (sq ft)</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="buildingArea">
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Number of Floors</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="numberOfFloors">
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Construction Type</mat-label>
+
+              <mat-select formControlName="constructionType">
+
+                <mat-option value="Brick">Brick</mat-option>
+                <mat-option value="Concrete">Concrete</mat-option>
+                <mat-option value="Steel">Steel</mat-option>
+                <mat-option value="Wood">Wood</mat-option>
+
+              </mat-select>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Occupancy Type</mat-label>
+
+              <mat-select formControlName="occupancyType">
+
+                <mat-option value="Owner Occupied">
+                  Owner Occupied
+                </mat-option>
+
+                <mat-option value="Tenant Occupied">
+                  Tenant Occupied
+                </mat-option>
+
+              </mat-select>
+
+            </mat-form-field>
+
+          </div>
+
+
+          <div class="step-actions">
+
+            <button
+              mat-button
+              matStepperPrevious>
+              Back
+            </button>
+
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="saveProgress()">
+              Save Progress
+            </button>
+
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              [disabled]="propertyForm.invalid">
+              Next
+            </button>
+
+          </div>
+
+        </form>
+
+      </mat-step>
+
+
+      <!-- STEP 3 -->
+      <mat-step [stepControl]="coverageForm">
+
+        <form [formGroup]="coverageForm">
+
+          <ng-template matStepLabel>
+            Coverage Information
+          </ng-template>
+
+          <div class="step-content">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Building Coverage</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="buildingCoverage">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Personal Property</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="businessPersonalProperty">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Equipment Coverage</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="equipmentCoverage">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Business Interruption</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="businessInterruptionCoverage">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>General Liability</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="generalLiabilityCoverage">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+
+            <mat-form-field appearance="outline">
+              <mat-label>Deductible</mat-label>
+
+              <input
+                matInput
+                type="number"
+                formControlName="deductible">
+
+              <span matTextPrefix>$&nbsp;</span>
+
+            </mat-form-field>
+
+          </div>
+
+
+          <div class="step-actions">
+
+            <button
+              mat-button
+              matStepperPrevious>
+              Back
+            </button>
+
+            <button
+              mat-stroked-button
+              type="button"
+              (click)="saveProgress()">
+              Save Progress
+            </button>
+
+            <button
+              mat-flat-button
+              color="primary"
+              matStepperNext
+              [disabled]="coverageForm.invalid">
+              Review
+            </button>
+
+          </div>
+
+        </form>
+
+      </mat-step>
+
+
+      <!-- STEP 4 -->
+      <mat-step>
+
+        <ng-template matStepLabel>
+          Review & Submit
+        </ng-template>
+
+        <div class="review-section">
+
+          <h2>Review Quote</h2>
+
+          <p>
+            Please review the information before submitting the quote.
+          </p>
+
+          <h3>Business Information</h3>
+
+          <p>
+            <strong>Business:</strong>
+            {{ businessForm.value.businessName }}
+          </p>
+
+          <p>
+            <strong>Business Type:</strong>
+            {{ businessForm.value.businessType }}
+          </p>
+
+          <p>
+            <strong>Contact:</strong>
+            {{ businessForm.value.contactPerson }}
+          </p>
+
+          <h3>Property Information</h3>
+
+          <p>
+            <strong>Property Type:</strong>
+            {{ propertyForm.value.propertyType }}
+          </p>
+
+          <p>
+            <strong>Year Built:</strong>
+            {{ propertyForm.value.yearBuilt }}
+          </p>
+
+          <p>
+            <strong>Building Area:</strong>
+            {{ propertyForm.value.buildingArea }} sq ft
+          </p>
+
+          <h3>Coverage</h3>
+
+          <p>
+            <strong>Building:</strong>
+            ${{ coverageForm.value.buildingCoverage }}
+          </p>
+
+          <p>
+            <strong>Business Property:</strong>
+            ${{ coverageForm.value.businessPersonalProperty }}
+          </p>
+
+          <p>
+            <strong>Deductible:</strong>
+            ${{ coverageForm.value.deductible }}
+          </p>
+
+        </div>
+
+
+        <div class="step-actions">
+
+          <button
+            mat-button
+            matStepperPrevious>
+            Back
+          </button>
+
+          <button
+            mat-stroked-button
+            type="button"
+            (click)="saveProgress()">
+            Save Progress
+          </button>
+
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="submitQuote()">
+            Submit Quote
+          </button>
+
+        </div>
+
+      </mat-step>
+
+    </mat-stepper>
+
+  </mat-card>
+
+</div>
