@@ -1,0 +1,172 @@
+.dialog-container {
+  width: 520px;
+  max-width: 100%;
+  background: #ffffff;
+}
+
+/* HEADER */
+
+.dialog-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dialog-header p {
+  margin: 5px 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.close-button {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.close-button mat-icon {
+  font-size: 20px;
+}
+
+/* CONTENT */
+
+.dialog-content {
+  padding: 22px 24px;
+}
+
+.business-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 78px;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.business-option:last-child {
+  margin-bottom: 0;
+}
+
+.business-option:hover {
+  border-color: #90caf9;
+  background: #f8fbff;
+}
+
+.business-option.selected {
+  border-color: #1976d2;
+  background: #eaf4ff;
+}
+
+.business-icon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.business-icon mat-icon {
+  font-size: 21px;
+}
+
+.business-info {
+  flex: 1;
+}
+
+.business-info h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.business-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.selected-icon {
+  color: #1976d2;
+  font-size: 22px;
+}
+
+/* FOOTER */
+
+.dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cancel-button {
+  height: 38px;
+  padding: 0 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #374151;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #f9fafb;
+}
+
+.proceed-button {
+  height: 38px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 6px;
+  background: #1976d2;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.proceed-button:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.proceed-button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
