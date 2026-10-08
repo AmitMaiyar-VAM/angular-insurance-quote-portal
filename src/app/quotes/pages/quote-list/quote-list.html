@@ -1,0 +1,152 @@
+<div class="quote-list-page">
+  <div class="page-header">
+    <div>
+      <h2>Quote List</h2>
+      <p>Manage and track your commercial property quotes</p>
+    </div>
+
+    <button class="add-quote-button" type="button" (click)="addQuote()">
+      <mat-icon>add</mat-icon>
+      <span>Add Quote</span>
+    </button>
+  </div>
+
+  <div class="summary-cards">
+    <div class="summary-card">
+      <div class="summary-icon">
+        <mat-icon>description</mat-icon>
+      </div>
+
+      <div>
+        <span class="summary-label">Total Quotes</span>
+        <span class="summary-value">{{ totalQuotes }}</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon">
+        <mat-icon>edit</mat-icon>
+      </div>
+
+      <div>
+        <span class="summary-label">Incomplete</span>
+        <span class="summary-value">{{ incompleteQuotes }}</span>
+      </div>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+
+      <div>
+        <span class="summary-label">Completed</span>
+        <span class="summary-value">{{ completedQuotes }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-card">
+    <div class="table-header">
+      <div>
+        <h2>All Quotes</h2>
+        <p>View and manage your commercial property quotes</p>
+      </div>
+
+      <div class="search-box">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Search quotes..." />
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      @if (quotes.length > 0) {
+        <table>
+          <thead>
+            <tr>
+              <th>Quote ID</th>
+              <th>Business Name</th>
+              <th>Business Type</th>
+              <th>Created Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (quote of quotes; track quote.id) {
+              <tr>
+                <td class="quote-number">
+                  {{ quote.id }}
+                </td>
+
+                <td>
+                  {{ quote.businessInfo.businessName }}
+                </td>
+
+                <td>
+                  {{ quote.businessInfo.businessType }}
+                </td>
+
+                <td>
+                  {{ quote.createdAt | date: 'dd MMM yyyy' }}
+                </td>
+
+                <td>
+                  <span
+                    class="status"
+                    [class.incomplete]="quote.status === 'Incomplete'"
+                    [class.completed]="quote.status === 'Completed'"
+                  >
+                    {{ quote.status }}
+                  </span>
+                </td>
+
+                <td>
+                  <div class="action-buttons">
+                    @if (quote.status === 'Completed') {
+                      <button
+                        class="action-button"
+                        type="button"
+                        title="View Quote"
+                        (click)="viewQuote(quote.id)"
+                      >
+                        <mat-icon>visibility</mat-icon>
+                      </button>
+                    } @else {
+                      <button
+                        class="action-button"
+                        type="button"
+                        title="Resume Quote"
+                        (click)="resumeQuote(quote.id)"
+                      >
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    }
+
+                    <button
+                      class="action-button delete-button"
+                      type="button"
+                      title="Delete Quote"
+                      (click)="deleteQuote(quote.id)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="empty-state">
+          <mat-icon>description</mat-icon>
+
+          <h3>No Quotes Found</h3>
+
+          <p>There are currently no commercial property quotes.</p>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div>
+      <h2>Add New Quote</h2>
+      <p>Select a line of business to continue</p>
+    </div>
+
+    <button class="close-button" type="button" (click)="cancel()" title="Close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="dialog-content">
+    <div
+      class="business-option"
+      [class.selected]="selectedBusiness === 'Commercial Property'"
+      (click)="selectBusiness('Commercial Property')"
+    >
+      <div class="business-icon">
+        <mat-icon>business</mat-icon>
+      </div>
+
+      <div class="business-info">
+        <h3>Commercial Property</h3>
+        <p>Property insurance quote</p>
+      </div>
+
+      @if (selectedBusiness === 'Commercial Property') {
+        <mat-icon class="selected-icon">check_circle</mat-icon>
+      }
+    </div>
+
+    <div
+      class="business-option"
+      [class.selected]="selectedBusiness === 'Commercial Auto'"
+      (click)="selectBusiness('Commercial Auto')"
+    >
+      <div class="business-icon">
+        <mat-icon>directions_car</mat-icon>
+      </div>
+
+      <div class="business-info">
+        <h3>Commercial Auto</h3>
+        <p>Commercial auto insurance quote</p>
+      </div>
+
+      @if (selectedBusiness === 'Commercial Auto') {
+        <mat-icon class="selected-icon">check_circle</mat-icon>
+      }
+    </div>
+
+    <div
+      class="business-option"
+      [class.selected]="selectedBusiness === 'Business Owner Policy'"
+      (click)="selectBusiness('Business Owner Policy')"
+    >
+      <div class="business-icon">
+        <mat-icon>store</mat-icon>
+      </div>
+
+      <div class="business-info">
+        <h3>Business Owner's Policy</h3>
+        <p>Business owner's insurance quote</p>
+      </div>
+
+      @if (selectedBusiness === 'Business Owner Policy') {
+        <mat-icon class="selected-icon">check_circle</mat-icon>
+      }
+    </div>
+  </div>
+
+  <div class="dialog-footer">
+    <button class="cancel-button" type="button" (click)="cancel()">Cancel</button>
+
+    <button class="proceed-button" type="button" [disabled]="!selectedBusiness" (click)="proceed()">
+      Proceed
+    </button>
+  </div>
+</div>
