@@ -1,0 +1,207 @@
+<div class="dashboard-page">
+  <!-- Welcome Section -->
+
+  <section class="welcome-section">
+    <div class="welcome-content">
+      <div class="welcome-icon">
+        <mat-icon>business</mat-icon>
+      </div>
+
+      <div>
+        <h2>Welcome back, John</h2>
+
+        <p>Here's an overview of your Commercial Property Quote Portal</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Dashboard Grid -->
+
+  <section class="dashboard-grid">
+    <!-- Recent Quotes -->
+
+    <div class="dashboard-card recent-quotes-card">
+      <div class="card-header">
+        <div>
+          <h2>Recent Quotes</h2>
+
+          <p>Recently created commercial property quotes</p>
+        </div>
+
+        <mat-icon>description</mat-icon>
+      </div>
+
+      <div class="quote-list">
+        <div class="quote-item">
+          <div class="quote-icon">
+            <mat-icon>business</mat-icon>
+          </div>
+
+          <div class="quote-info">
+            <span class="quote-id"> CP-10001 </span>
+
+            <span class="business-name"> ABC Manufacturing Pvt Ltd </span>
+          </div>
+
+          <span class="quote-status incomplete"> Incomplete </span>
+        </div>
+
+        <div class="quote-item">
+          <div class="quote-icon">
+            <mat-icon>store</mat-icon>
+          </div>
+
+          <div class="quote-info">
+            <span class="quote-id"> CP-10002 </span>
+
+            <span class="business-name"> Sunrise Retail Stores </span>
+          </div>
+
+          <span class="quote-status completed"> Completed </span>
+        </div>
+
+        <div class="quote-item">
+          <div class="quote-icon">
+            <mat-icon>business</mat-icon>
+          </div>
+
+          <div class="quote-info">
+            <span class="quote-id"> CP-10003 </span>
+
+            <span class="business-name"> Green Valley Enterprises </span>
+          </div>
+
+          <span class="quote-status incomplete"> Incomplete </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Navigation -->
+
+    <div class="dashboard-card navigation-card">
+      <div class="card-header">
+        <div>
+          <h2>Quick Navigation</h2>
+
+          <p>Access frequently used sections</p>
+        </div>
+
+        <mat-icon>explore</mat-icon>
+      </div>
+
+      <div class="navigation-list">
+        <a routerLink="/quotes" class="navigation-item">
+          <div class="navigation-icon">
+            <mat-icon>description</mat-icon>
+          </div>
+
+          <div class="navigation-content">
+            <span class="navigation-title"> Quote List </span>
+
+            <span class="navigation-description"> View and manage your quotes </span>
+          </div>
+
+          <mat-icon class="arrow-icon"> chevron_right </mat-icon>
+        </a>
+
+        <a routerLink="/faq" class="navigation-item">
+          <div class="navigation-icon">
+            <mat-icon>help_outline</mat-icon>
+          </div>
+
+          <div class="navigation-content">
+            <span class="navigation-title"> FAQ </span>
+
+            <span class="navigation-description"> Find answers to common questions </span>
+          </div>
+
+          <mat-icon class="arrow-icon"> chevron_right </mat-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote Status Overview -->
+
+  <section class="dashboard-card status-card">
+    <div class="card-header">
+      <div>
+        <h2>Quote Status Overview</h2>
+
+        <p>Overview of current quote progress</p>
+      </div>
+
+      <mat-icon>analytics</mat-icon>
+    </div>
+
+    <div class="status-overview">
+      <div class="status-row">
+        <div class="status-label">
+          <span class="status-dot completed-dot"></span>
+
+          <span>Completed</span>
+        </div>
+
+        <span class="status-percentage"> 67% </span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill completed-progress" style="width: 67%"></div>
+      </div>
+
+      <div class="status-row">
+        <div class="status-label">
+          <span class="status-dot incomplete-dot"></span>
+
+          <span>Incomplete</span>
+        </div>
+
+        <span class="status-percentage"> 33% </span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill incomplete-progress" style="width: 33%"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Information Cards -->
+
+  <section class="information-section">
+    <div class="info-card">
+      <div class="info-icon">
+        <mat-icon>verified_user</mat-icon>
+      </div>
+
+      <div>
+        <h3>Secure & Reliable</h3>
+
+        <p>Your quote information is securely managed throughout the application process.</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon">
+        <mat-icon>assignment</mat-icon>
+      </div>
+
+      <div>
+        <h3>Easy Quote Management</h3>
+
+        <p>Track your Commercial Property applications and continue where you left off.</p>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-icon">
+        <mat-icon>support_agent</mat-icon>
+      </div>
+
+      <div>
+        <h3>Need Help?</h3>
+
+        <p>Visit the FAQ section for answers to common questions about the quote process.</p>
+      </div>
+    </div>
+  </section>
+</div>
