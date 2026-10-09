@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 import { AddQuoteDialog } from '../../components/add-quote-dialog/add-quote-dialog';
 import { Quote } from '../../models/quote.model';
@@ -20,6 +21,7 @@ export class QuoteList implements OnInit {
   constructor(
     private quoteService: QuoteService,
     private dialog: MatDialog,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -37,19 +39,72 @@ export class QuoteList implements OnInit {
       autoFocus: false,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log('Selected business:', result);
+    dialogRef.afterClosed().subscribe((result: string | undefined) => {
+      if (!result) {
+        return;
       }
+
+      // This integration currently supports the CP flow.
+      if (result !== 'CP' && result !== 'Commercial Property') {
+        return;
+      }
+
+      const now = new Date().toISOString();
+
+      const newQuote: Quote = {
+        id: 'CP-' + Date.now(),
+        productType: 'CP',
+        status: 'Incomplete',
+        currentStep: 1,
+
+        businessInfo: {
+          businessName: '',
+          businessType: '',
+          contactPerson: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: '',
+          zipCode: '',
+        },
+
+        propertyInfo: {
+          propertyType: '',
+          propertyAddress: '',
+          yearBuilt: 0,
+          buildingArea: 0,
+          numberOfFloors: 0,
+          constructionType: '',
+          occupancyType: '',
+        },
+
+        coverageInfo: {
+          buildingCoverage: 0,
+          businessPersonalProperty: 0,
+          equipmentCoverage: 0,
+          businessInterruptionCoverage: 0,
+          generalLiabilityCoverage: 0,
+          deductible: 0,
+        },
+
+        createdAt: now,
+        updatedAt: now,
+      };
+
+      this.quoteService.saveQuote(newQuote);
+      this.loadQuotes();
+
+      this.router.navigate(['/quotes/wizard', newQuote.id]);
     });
   }
 
   viewQuote(id: string): void {
-    console.log('View quote:', id);
+    this.router.navigate(['/quotes/details', id]);
   }
 
   resumeQuote(id: string): void {
-    console.log('Resume quote:', id);
+    this.router.navigate(['/quotes/wizard', id]);
   }
 
   deleteQuote(id: string): void {
