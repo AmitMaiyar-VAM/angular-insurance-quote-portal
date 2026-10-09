@@ -1,1 +1,247 @@
-<p>quote-details works!</p>
+<div class="details-container">
+
+  @if (quote) {
+
+    <div class="page-header">
+      <div>
+        <h1>Quote Details</h1>
+        <p>View the complete commercial property quote information.</p>
+      </div>
+
+      <button mat-stroked-button (click)="goToQuotes()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Quote List
+      </button>
+    </div>
+
+
+    <!-- Quote Summary -->
+
+    <mat-card class="details-card">
+
+      <div class="quote-summary">
+
+        <div>
+          <span class="label">Quote ID</span>
+          <strong>{{ quote.id }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Product</span>
+          <strong>{{ quote.productType }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Status</span>
+          <span
+            class="status"
+            [class.completed]="quote.status === 'Completed'">
+            {{ quote.status }}
+          </span>
+        </div>
+
+        <div>
+          <span class="label">Created</span>
+          <strong>{{ quote.createdAt | date:'medium' }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Last Updated</span>
+          <strong>{{ quote.updatedAt | date:'medium' }}</strong>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+
+    <!-- Business Information -->
+
+    <mat-card class="details-card">
+
+      <div class="section-header">
+        <mat-icon>business</mat-icon>
+        <h2>Business Information</h2>
+      </div>
+
+      <div class="details-grid">
+
+        <div>
+          <span class="label">Business Name</span>
+          <strong>{{ quote.businessInfo.businessName }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Business Type</span>
+          <strong>{{ quote.businessInfo.businessType }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Contact Person</span>
+          <strong>{{ quote.businessInfo.contactPerson }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Email</span>
+          <strong>{{ quote.businessInfo.email }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Phone</span>
+          <strong>{{ quote.businessInfo.phone }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Address</span>
+          <strong>{{ quote.businessInfo.address }}</strong>
+        </div>
+
+        <div>
+          <span class="label">City</span>
+          <strong>{{ quote.businessInfo.city }}</strong>
+        </div>
+
+        <div>
+          <span class="label">State</span>
+          <strong>{{ quote.businessInfo.state }}</strong>
+        </div>
+
+        <div>
+          <span class="label">ZIP Code</span>
+          <strong>{{ quote.businessInfo.zipCode }}</strong>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+
+    <!-- Property Information -->
+
+    <mat-card class="details-card">
+
+      <div class="section-header">
+        <mat-icon>home_work</mat-icon>
+        <h2>Property Information</h2>
+      </div>
+
+      <div class="details-grid">
+
+        <div>
+          <span class="label">Property Type</span>
+          <strong>{{ quote.propertyInfo.propertyType }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Property Address</span>
+          <strong>{{ quote.propertyInfo.propertyAddress }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Year Built</span>
+          <strong>{{ quote.propertyInfo.yearBuilt }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Building Area</span>
+          <strong>{{ quote.propertyInfo.buildingArea }} sq ft</strong>
+        </div>
+
+        <div>
+          <span class="label">Number of Floors</span>
+          <strong>{{ quote.propertyInfo.numberOfFloors }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Construction Type</span>
+          <strong>{{ quote.propertyInfo.constructionType }}</strong>
+        </div>
+
+        <div>
+          <span class="label">Occupancy Type</span>
+          <strong>{{ quote.propertyInfo.occupancyType }}</strong>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+
+    <!-- Coverage Information -->
+
+    <mat-card class="details-card">
+
+      <div class="section-header">
+        <mat-icon>security</mat-icon>
+        <h2>Coverage Information</h2>
+      </div>
+
+      <div class="details-grid">
+
+        <div>
+          <span class="label">Building Coverage</span>
+          <strong>
+            {{ quote.coverageInfo.buildingCoverage | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span class="label">Business Personal Property</span>
+          <strong>
+            {{ quote.coverageInfo.businessPersonalProperty | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span class="label">Equipment Coverage</span>
+          <strong>
+            {{ quote.coverageInfo.equipmentCoverage | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span class="label">Business Interruption Coverage</span>
+          <strong>
+            {{ quote.coverageInfo.businessInterruptionCoverage | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span class="label">General Liability Coverage</span>
+          <strong>
+            {{ quote.coverageInfo.generalLiabilityCoverage | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+        <div>
+          <span class="label">Deductible</span>
+          <strong>
+            {{ quote.coverageInfo.deductible | currency:'USD':'symbol':'1.0-0' }}
+          </strong>
+        </div>
+
+      </div>
+
+    </mat-card>
+
+  } @else {
+
+    <mat-card class="not-found-card">
+
+      <mat-icon>error_outline</mat-icon>
+
+      <h2>Quote Not Found</h2>
+
+      <p>
+        The requested quote could not be found.
+      </p>
+
+      <button mat-raised-button (click)="goToQuotes()">
+        Back to Quote List
+      </button>
+
+    </mat-card>
+
+  }
+
+</div>
