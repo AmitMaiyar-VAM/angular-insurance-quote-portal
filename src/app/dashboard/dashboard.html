@@ -32,48 +32,40 @@
       </div>
 
       <div class="quote-list">
-        <div class="quote-item">
-          <div class="quote-icon">
-            <mat-icon>business</mat-icon>
-          </div>
-
-          <div class="quote-info">
-            <span class="quote-id"> CP-10001 </span>
-
-            <span class="business-name"> ABC Manufacturing Pvt Ltd </span>
-          </div>
-
-          <span class="quote-status incomplete"> Incomplete </span>
+  @if (recentQuotes.length > 0) {
+    @for (quote of recentQuotes; track quote.id) {
+      <button
+        type="button"
+        class="quote-item"
+        (click)="openQuote(quote)"
+      >
+        <div class="quote-icon">
+          <mat-icon>business</mat-icon>
         </div>
 
-        <div class="quote-item">
-          <div class="quote-icon">
-            <mat-icon>store</mat-icon>
-          </div>
-
-          <div class="quote-info">
-            <span class="quote-id"> CP-10002 </span>
-
-            <span class="business-name"> Sunrise Retail Stores </span>
-          </div>
-
-          <span class="quote-status completed"> Completed </span>
+        <div class="quote-info">
+          <span class="quote-id">{{ quote.id }}</span>
+          <span class="business-name">
+            {{ quote.businessInfo.businessName || 'New Business' }}
+          </span>
+          <span class="business-name">
+            Updated {{ quote.updatedAt | date: 'dd MMM yyyy, h:mm a' }}
+          </span>
         </div>
 
-        <div class="quote-item">
-          <div class="quote-icon">
-            <mat-icon>business</mat-icon>
-          </div>
-
-          <div class="quote-info">
-            <span class="quote-id"> CP-10003 </span>
-
-            <span class="business-name"> Green Valley Enterprises </span>
-          </div>
-
-          <span class="quote-status incomplete"> Incomplete </span>
-        </div>
-      </div>
+        <span
+          class="quote-status"
+          [class.incomplete]="quote.status === 'Incomplete'"
+          [class.completed]="quote.status === 'Completed'"
+        >
+          {{ quote.status }}
+        </span>
+      </button>
+    }
+  } @else {
+    <p class="empty-quotes">No quotes have been created yet.</p>
+  }
+</div>
     </div>
 
     <!-- Quick Navigation -->
@@ -142,11 +134,14 @@
           <span>Completed</span>
         </div>
 
-        <span class="status-percentage"> 67% </span>
+        <span class="status-percentage">{{ completedPercentage }}%</span>
       </div>
 
       <div class="progress-bar">
-        <div class="progress-fill completed-progress" style="width: 67%"></div>
+        <div
+  class="progress-fill completed-progress"
+  [style.width.%]="completedPercentage"
+></div>
       </div>
 
       <div class="status-row">
@@ -156,11 +151,14 @@
           <span>Incomplete</span>
         </div>
 
-        <span class="status-percentage"> 33% </span>
+        <span class="status-percentage">{{ incompletePercentage }}%</span>
       </div>
 
       <div class="progress-bar">
-        <div class="progress-fill incomplete-progress" style="width: 33%"></div>
+        <div
+  class="progress-fill incomplete-progress"
+  [style.width.%]="incompletePercentage"
+></div>
       </div>
     </div>
   </section>
