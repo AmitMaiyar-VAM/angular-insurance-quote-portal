@@ -11,8 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatStepperModule } from '@angular/material/stepper';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatStepperModule, MatStepper } from '@angular/material/stepper';
 
 import { Quote } from '../../models/quote.model';
 import { QuoteService } from '../../services/quote.service';
@@ -170,4 +170,12 @@ export class QuoteWizard {
 
     return 4;
   }
+
+  goToNextStep(stepper: MatStepper): void {
+  this.saveProgress();
+
+  if (!this.errorMessage) {
+    stepper.next();
+  }
+}
 }
