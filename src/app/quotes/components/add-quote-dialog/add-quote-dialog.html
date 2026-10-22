@@ -11,62 +11,30 @@
   </div>
 
   <div class="dialog-content">
-    <div
-      class="business-option"
-      [class.selected]="selectedBusiness === 'Commercial Property'"
-      (click)="selectBusiness('Commercial Property')"
-    >
-      <div class="business-icon">
-        <mat-icon>business</mat-icon>
-      </div>
+    <label for="lob-select">Line of Business (LOB)</label>
 
-      <div class="business-info">
-        <h3>Commercial Property</h3>
-        <p>Property insurance quote</p>
-      </div>
+    <div class="select-wrapper">
+      <mat-icon class="select-leading-icon">business</mat-icon>
 
-      @if (selectedBusiness === 'Commercial Property') {
-        <mat-icon class="selected-icon">check_circle</mat-icon>
-      }
+      <select
+        id="lob-select"
+        class="lob-select"
+        [value]="selectedBusiness"
+        (change)="selectBusiness($any($event.target).value)"
+      >
+        <option value="" disabled>Select a line of business</option>
+        <option value="Commercial Property">Commercial Property</option>
+        <option value="Commercial Auto">Commercial Auto</option>
+        <option value="Business Owner Policy">Business Owner's Policy (BOP)</option>
+        <option value="Workers Compensation">Workers Compensation</option>
+        <option value="Commercial General Liability">Commercial General Liability (CGL)</option>
+        <option value="Professional Liability">Professional Liability (E&O)</option>
+      </select>
+
+      <mat-icon class="select-arrow">expand_more</mat-icon>
     </div>
 
-    <div
-      class="business-option"
-      [class.selected]="selectedBusiness === 'Commercial Auto'"
-      (click)="selectBusiness('Commercial Auto')"
-    >
-      <div class="business-icon">
-        <mat-icon>directions_car</mat-icon>
-      </div>
-
-      <div class="business-info">
-        <h3>Commercial Auto</h3>
-        <p>Commercial auto insurance quote</p>
-      </div>
-
-      @if (selectedBusiness === 'Commercial Auto') {
-        <mat-icon class="selected-icon">check_circle</mat-icon>
-      }
-    </div>
-
-    <div
-      class="business-option"
-      [class.selected]="selectedBusiness === 'Business Owner Policy'"
-      (click)="selectBusiness('Business Owner Policy')"
-    >
-      <div class="business-icon">
-        <mat-icon>store</mat-icon>
-      </div>
-
-      <div class="business-info">
-        <h3>Business Owner's Policy</h3>
-        <p>Business owner's insurance quote</p>
-      </div>
-
-      @if (selectedBusiness === 'Business Owner Policy') {
-        <mat-icon class="selected-icon">check_circle</mat-icon>
-      }
-    </div>
+    <p class="field-hint">Choose the insurance product for which you want to create a quote.</p>
   </div>
 
   <div class="dialog-footer">

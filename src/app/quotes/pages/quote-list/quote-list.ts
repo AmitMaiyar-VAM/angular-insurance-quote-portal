@@ -33,11 +33,7 @@ export class QuoteList implements OnInit {
   }
 
   addQuote(): void {
-    const dialogRef = this.dialog.open(AddQuoteDialog, {
-      width: '520px',
-      maxWidth: '90vw',
-      autoFocus: false,
-    });
+    const dialogRef = this.dialog.open(AddQuoteDialog);
 
     dialogRef.afterClosed().subscribe((result: string | undefined) => {
       if (!result) {

@@ -14,7 +14,6 @@
       </div>
     </div>
   </section>
-
   <!-- Main Dashboard Grid -->
 
   <section class="dashboard-grid">
@@ -32,40 +31,36 @@
       </div>
 
       <div class="quote-list">
-  @if (recentQuotes.length > 0) {
-    @for (quote of recentQuotes; track quote.id) {
-      <button
-        type="button"
-        class="quote-item"
-        (click)="openQuote(quote)"
-      >
-        <div class="quote-icon">
-          <mat-icon>business</mat-icon>
-        </div>
+        @if (recentQuotes.length > 0) {
+          @for (quote of recentQuotes; track quote.id) {
+            <button type="button" class="quote-item" (click)="openQuote(quote)">
+              <div class="quote-icon">
+                <mat-icon>business</mat-icon>
+              </div>
 
-        <div class="quote-info">
-          <span class="quote-id">{{ quote.id }}</span>
-          <span class="business-name">
-            {{ quote.businessInfo.businessName || 'New Business' }}
-          </span>
-          <span class="business-name">
-            Updated {{ quote.updatedAt | date: 'dd MMM yyyy, h:mm a' }}
-          </span>
-        </div>
+              <div class="quote-info">
+                <span class="quote-id">{{ quote.id }}</span>
+                <span class="business-name">
+                  {{ quote.businessInfo.businessName || 'New Business' }}
+                </span>
+                <span class="business-name">
+                  Updated {{ quote.updatedAt | date: 'dd MMM yyyy, h:mm a' }}
+                </span>
+              </div>
 
-        <span
-          class="quote-status"
-          [class.incomplete]="quote.status === 'Incomplete'"
-          [class.completed]="quote.status === 'Completed'"
-        >
-          {{ quote.status }}
-        </span>
-      </button>
-    }
-  } @else {
-    <p class="empty-quotes">No quotes have been created yet.</p>
-  }
-</div>
+              <span
+                class="quote-status"
+                [class.incomplete]="quote.status === 'Incomplete'"
+                [class.completed]="quote.status === 'Completed'"
+              >
+                {{ quote.status }}
+              </span>
+            </button>
+          }
+        } @else {
+          <p class="empty-quotes">No quotes have been created yet.</p>
+        }
+      </div>
     </div>
 
     <!-- Quick Navigation -->
@@ -138,10 +133,7 @@
       </div>
 
       <div class="progress-bar">
-        <div
-  class="progress-fill completed-progress"
-  [style.width.%]="completedPercentage"
-></div>
+        <div class="progress-fill completed-progress" [style.width.%]="completedPercentage"></div>
       </div>
 
       <div class="status-row">
@@ -155,10 +147,7 @@
       </div>
 
       <div class="progress-bar">
-        <div
-  class="progress-fill incomplete-progress"
-  [style.width.%]="incompletePercentage"
-></div>
+        <div class="progress-fill incomplete-progress" [style.width.%]="incompletePercentage"></div>
       </div>
     </div>
   </section>
