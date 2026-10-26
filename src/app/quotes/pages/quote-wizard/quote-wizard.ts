@@ -1,18 +1,25 @@
 import { Component } from '@angular/core';
 import {
-	FormBuilder,
-	FormGroup,
-	ReactiveFormsModule,
-	Validators,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatStepperModule, MatStepper } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
 
 import { Quote } from '../../models/quote.model';
 import { QuoteService } from '../../services/quote.service';
@@ -29,6 +36,12 @@ import { QuoteService } from '../../services/quote.service';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    DatePipe
   ],
   templateUrl: './quote-wizard.html',
   styleUrl: './quote-wizard.css',
@@ -37,6 +50,8 @@ export class QuoteWizard {
   businessForm: FormGroup;
   propertyForm: FormGroup;
   coverageForm: FormGroup;
+  riskForm: FormGroup;
+  additionalForm: FormGroup;
 
   private quoteId: string | null = null;
 
@@ -55,20 +70,27 @@ export class QuoteWizard {
       businessType: ['', Validators.required],
       contactPerson: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{10}$/),
+      ]],
       address: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zipCode: ['', [Validators.required, Validators.pattern(/^[0-9]{5,6}$/)]],
+      zipCode: ['', [
+        Validators.required,
+        Validators.pattern(/^[0-9]{5,6}$/),
+      ]],
     });
 
     this.propertyForm = this.fb.group({
       propertyType: ['', Validators.required],
       propertyAddress: ['', Validators.required],
-      yearBuilt: [
-        '',
-        [Validators.required, Validators.min(1800), Validators.max(new Date().getFullYear())],
-      ],
+      yearBuilt: ['', [
+        Validators.required,
+        Validators.min(1800),
+        Validators.max(new Date().getFullYear()),
+      ]],
       buildingArea: ['', [Validators.required, Validators.min(1)]],
       numberOfFloors: ['', [Validators.required, Validators.min(1)]],
       constructionType: ['', Validators.required],
@@ -77,11 +99,38 @@ export class QuoteWizard {
 
     this.coverageForm = this.fb.group({
       buildingCoverage: ['', [Validators.required, Validators.min(1)]],
-      businessPersonalProperty: ['', [Validators.required, Validators.min(1)]],
-      equipmentCoverage: ['', Validators.min(0)],
-      businessInterruptionCoverage: ['', Validators.min(0)],
-      generalLiabilityCoverage: ['', [Validators.required, Validators.min(1)]],
+      businessPersonalProperty: ['', [
+        Validators.required,
+        Validators.min(1),
+      ]],
+      equipmentCoverage: [0, [Validators.required, Validators.min(0)]],
+      businessInterruptionCoverage: [
+        0,
+        [Validators.required, Validators.min(0)],
+      ],
+      generalLiabilityCoverage: ['', [
+        Validators.required,
+        Validators.min(1),
+      ]],
       deductible: ['', [Validators.required, Validators.min(0)]],
+    });
+
+    this.riskForm = this.fb.group({
+      hasFireAlarm: [false],
+      hasSprinklers: [false],
+      hasSecuritySystem: [false],
+      hasFireExtinguishers: [false],
+      priorClaims: ['', Validators.required],
+      claimsDetails: [''],
+      riskNotes: [''],
+    });
+
+    this.additionalForm = this.fb.group({
+      effectiveDate: [null, Validators.required],
+      priorInsurance: ['', Validators.required],
+      previousInsurer: [''],
+      additionalInterests: [''],
+      declarationsAccepted: [false, Validators.requiredTrue],
     });
 
     const id = this.route.snapshot.paramMap.get('id');
@@ -95,29 +144,80 @@ export class QuoteWizard {
     const quote = this.quoteService.getQuoteById(id);
 
     if (!quote) {
-      this.errorMessage = 'Quote not found. Please return to the Quote List.';
+      this.errorMessage =
+        'Quote not found. Please return to the Quote List.';
       return;
     }
 
     this.quoteId = quote.id;
+
     this.businessForm.patchValue(quote.businessInfo);
     this.propertyForm.patchValue(quote.propertyInfo);
     this.coverageForm.patchValue(quote.coverageInfo);
 
-    this.savedStep = Math.max(0, quote.currentStep - 1);
+    // Older quotes may not contain the new sections.
+    this.riskForm.patchValue(quote.riskInfo ?? {});
+    this.additionalForm.patchValue(quote.additionalInfo ?? {});
+
+    const effectiveDate = quote.additionalInfo?.effectiveDate;
+
+    if (effectiveDate) {
+      this.additionalForm.patchValue({
+        effectiveDate: new Date(effectiveDate),
+      });
+    }
+
+    this.savedStep = Math.min(
+      5,
+      Math.max(0, (quote.currentStep ?? 1) - 1),
+    );
   }
 
-  saveProgress(): void {
-    const existingQuote = this.quoteId ? this.quoteService.getQuoteById(this.quoteId) : undefined;
+  goToNextStep(stepper: MatStepper, form: FormGroup): void {
+    form.markAllAsTouched();
+
+    if (form.invalid) {
+      this.errorMessage =
+        'Please complete the required fields correctly before continuing.';
+      this.saveMessage = '';
+      return;
+    }
+
+    // Save the next step as the resume point.
+    this.saveDraft(stepper.selectedIndex + 2);
+    stepper.next();
+  }
+
+  goBack(stepper: MatStepper): void {
+    // Save the draft and resume at the step we're returning to.
+    this.saveDraft(Math.max(1, stepper.selectedIndex));
+    stepper.previous();
+  }
+
+  private saveDraft(currentStep: number): void {
+    const existingQuote = this.quoteId
+      ? this.quoteService.getQuoteById(this.quoteId)
+      : undefined;
+
+    const additionalInfo = {
+      ...this.additionalForm.getRawValue(),
+      effectiveDate: this.additionalForm.value.effectiveDate
+        ? new Date(
+            this.additionalForm.value.effectiveDate,
+          ).toISOString()
+        : '',
+    };
 
     const quote: Quote = {
       id: this.quoteId ?? this.generateQuoteId(),
       productType: 'CP',
       status: 'Incomplete',
-      currentStep: this.getCurrentStep(),
+      currentStep,
       businessInfo: this.businessForm.getRawValue(),
       propertyInfo: this.propertyForm.getRawValue(),
       coverageInfo: this.coverageForm.getRawValue(),
+      riskInfo: this.riskForm.getRawValue(),
+      additionalInfo,
       createdAt: existingQuote?.createdAt ?? new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -125,57 +225,58 @@ export class QuoteWizard {
     this.quoteId = quote.id;
     this.quoteService.saveQuote(quote);
 
-    this.saveMessage = 'Progress saved successfully.';
     this.errorMessage = '';
+    this.saveMessage = 'Progress saved automatically.';
   }
 
   submitQuote(): void {
-    this.businessForm.markAllAsTouched();
-    this.propertyForm.markAllAsTouched();
-    this.coverageForm.markAllAsTouched();
+    const forms = [
+      this.businessForm,
+      this.propertyForm,
+      this.coverageForm,
+      this.riskForm,
+      this.additionalForm,
+    ];
 
-    if (this.businessForm.invalid || this.propertyForm.invalid || this.coverageForm.invalid) {
-      this.errorMessage = 'Please complete all required fields and correct any invalid values.';
+    forms.forEach(form => form.markAllAsTouched());
+
+    if (forms.some(form => form.invalid)) {
+      this.errorMessage =
+        'Please review all steps and correct the validation errors.';
       this.saveMessage = '';
       return;
     }
 
-    const existingQuote = this.quoteId ? this.quoteService.getQuoteById(this.quoteId) : undefined;
+    const existingQuote = this.quoteId
+      ? this.quoteService.getQuoteById(this.quoteId)
+      : undefined;
+
+    const additionalInfo = {
+      ...this.additionalForm.getRawValue(),
+      effectiveDate: new Date(
+        this.additionalForm.value.effectiveDate,
+      ).toISOString(),
+    };
 
     const quote: Quote = {
       id: this.quoteId ?? this.generateQuoteId(),
       productType: 'CP',
       status: 'Completed',
-      currentStep: 4,
+      currentStep: 6,
       businessInfo: this.businessForm.getRawValue(),
       propertyInfo: this.propertyForm.getRawValue(),
       coverageInfo: this.coverageForm.getRawValue(),
+      riskInfo: this.riskForm.getRawValue(),
+      additionalInfo,
       createdAt: existingQuote?.createdAt ?? new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
     this.quoteService.saveQuote(quote);
-
     this.router.navigate(['/quotes/details', quote.id]);
   }
 
   private generateQuoteId(): string {
     return 'CP-' + Date.now();
   }
-
-  private getCurrentStep(): number {
-    if (this.businessForm.invalid) return 1;
-    if (this.propertyForm.invalid) return 2;
-    if (this.coverageForm.invalid) return 3;
-
-    return 4;
-  }
-
-  goToNextStep(stepper: MatStepper): void {
-  this.saveProgress();
-
-  if (!this.errorMessage) {
-    stepper.next();
-  }
-}
 }

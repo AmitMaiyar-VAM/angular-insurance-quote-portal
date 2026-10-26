@@ -1,9 +1,12 @@
 <div class="details-container">
+
   @if (quote) {
-    <div class="page-header">
+    <!-- Page heading -->
+    <div class="page-heading">
       <div>
-        <h2>Quote Details</h2>
-        <p>View the complete commercial property quote information.</p>
+        <div class="eyebrow">INSURANCE / COMMERCIAL PROPERTY</div>
+        <h1>Quote Details</h1>
+        <p>Review the submitted quote and its coverage information.</p>
       </div>
 
       <button mat-stroked-button (click)="goToQuotes()">
@@ -12,204 +15,330 @@
       </button>
     </div>
 
-    <!-- Quote Summary -->
-
-    <mat-card class="details-card">
-      <div class="quote-summary">
-        <div>
-          <span class="label">Quote ID</span>
-          <strong>{{ quote.id }}</strong>
+    <!-- Quote summary -->
+    <mat-card class="hero-card">
+      <div class="hero-top">
+        <div class="quote-icon">
+          <mat-icon>business</mat-icon>
         </div>
 
-        <div>
-          <span class="label">Product</span>
-          <strong>{{ quote.productType }}</strong>
+        <div class="hero-title">
+          <div class="eyebrow">COMMERCIAL PROPERTY QUOTE</div>
+          <h2>{{ quote.businessInfo.businessName || 'Unnamed Business' }}</h2>
+          <p>{{ quote.id }} · Product: {{ quote.productType }}</p>
         </div>
 
-        <div>
-          <span class="label">Status</span>
-          <span class="status" [class.completed]="quote.status === 'Completed'">
-            {{ quote.status }}
-          </span>
-        </div>
+        <span class="status-badge"
+          [class.completed]="quote.status === 'Completed'"
+          [class.incomplete]="quote.status === 'Incomplete'">
+          <mat-icon>
+            {{ quote.status === 'Completed' ? 'check_circle' : 'pending' }}
+          </mat-icon>
+          {{ quote.status }}
+        </span>
+      </div>
 
+      <div class="hero-meta">
         <div>
-          <span class="label">Created</span>
-          <strong>{{ quote.createdAt | date: 'medium' }}</strong>
+          <span>Created</span>
+          <strong>{{ quote.createdAt | date:'mediumDate' }}</strong>
         </div>
-
         <div>
-          <span class="label">Last Updated</span>
-          <strong>{{ quote.updatedAt | date: 'medium' }}</strong>
+          <span>Last Updated</span>
+          <strong>{{ quote.updatedAt | date:'medium' }}</strong>
+        </div>
+        <div>
+          <span>Business Type</span>
+          <strong>{{ quote.businessInfo.businessType || '—' }}</strong>
+        </div>
+        <div>
+          <span>Property Type</span>
+          <strong>{{ quote.propertyInfo.propertyType || '—' }}</strong>
         </div>
       </div>
     </mat-card>
 
-    <!-- Business Information -->
+    <!-- Coverage summary -->
+    <div class="section-title">
+      <div>
+        <h2>Coverage at a Glance</h2>
+        <p>Summary of requested coverage limits.</p>
+      </div>
+    </div>
 
-    <mat-card class="details-card">
-      <div class="section-header">
-        <mat-icon>business</mat-icon>
-        <h2>Business Information</h2>
+    <div class="coverage-grid">
+      <mat-card class="coverage-card">
+        <div class="coverage-icon blue">
+          <mat-icon>domain</mat-icon>
+        </div>
+        <span>Building Coverage</span>
+        <strong>{{ quote.coverageInfo.buildingCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
+      </mat-card>
+
+      <mat-card class="coverage-card">
+        <div class="coverage-icon purple">
+          <mat-icon>inventory_2</mat-icon>
+        </div>
+        <span>Business Property</span>
+        <strong>{{ quote.coverageInfo.businessPersonalProperty | currency:'USD':'symbol':'1.0-0' }}</strong>
+      </mat-card>
+
+      <mat-card class="coverage-card">
+        <div class="coverage-icon orange">
+          <mat-icon>construction</mat-icon>
+        </div>
+        <span>Equipment Coverage</span>
+        <strong>{{ quote.coverageInfo.equipmentCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
+      </mat-card>
+
+      <mat-card class="coverage-card">
+        <div class="coverage-icon green">
+          <mat-icon>shield</mat-icon>
+        </div>
+        <span>General Liability</span>
+        <strong>{{ quote.coverageInfo.generalLiabilityCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
+      </mat-card>
+    </div>
+
+    <mat-card class="total-card">
+      <div>
+        <span>Total Requested Coverage</span>
+        <p>Combined requested limits, excluding the deductible.</p>
+      </div>
+      <strong>{{ coverageTotal | currency:'USD':'symbol':'1.0-0' }}</strong>
+    </mat-card>
+
+    <!-- Business information -->
+    <mat-card class="info-card">
+      <div class="card-heading">
+        <div class="heading-icon">
+          <mat-icon>business</mat-icon>
+        </div>
+        <div>
+          <h2>Business Information</h2>
+          <p>Business and primary contact details</p>
+        </div>
       </div>
 
       <div class="details-grid">
-        <div>
-          <span class="label">Business Name</span>
-          <strong>{{ quote.businessInfo.businessName }}</strong>
+        <div class="detail-item">
+          <span>Business Name</span>
+          <strong>{{ quote.businessInfo.businessName || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Business Type</span>
-          <strong>{{ quote.businessInfo.businessType }}</strong>
+        <div class="detail-item">
+          <span>Business Type</span>
+          <strong>{{ quote.businessInfo.businessType || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Contact Person</span>
-          <strong>{{ quote.businessInfo.contactPerson }}</strong>
+        <div class="detail-item">
+          <span>Contact Person</span>
+          <strong>{{ quote.businessInfo.contactPerson || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Email</span>
-          <strong>{{ quote.businessInfo.email }}</strong>
+        <div class="detail-item">
+          <span>Email</span>
+          <strong>{{ quote.businessInfo.email || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Phone</span>
-          <strong>{{ quote.businessInfo.phone }}</strong>
+        <div class="detail-item">
+          <span>Phone</span>
+          <strong>{{ quote.businessInfo.phone || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Address</span>
-          <strong>{{ quote.businessInfo.address }}</strong>
-        </div>
-
-        <div>
-          <span class="label">City</span>
-          <strong>{{ quote.businessInfo.city }}</strong>
-        </div>
-
-        <div>
-          <span class="label">State</span>
-          <strong>{{ quote.businessInfo.state }}</strong>
-        </div>
-
-        <div>
-          <span class="label">ZIP Code</span>
-          <strong>{{ quote.businessInfo.zipCode }}</strong>
+        <div class="detail-item">
+          <span>Business Address</span>
+          <strong>
+            {{ quote.businessInfo.address || '—' }},
+            {{ quote.businessInfo.city || '' }}
+            {{ quote.businessInfo.state || '' }}
+            {{ quote.businessInfo.zipCode || '' }}
+          </strong>
         </div>
       </div>
     </mat-card>
 
-    <!-- Property Information -->
-
-    <mat-card class="details-card">
-      <div class="section-header">
-        <mat-icon>home_work</mat-icon>
-        <h2>Property Information</h2>
+    <!-- Property information -->
+    <mat-card class="info-card">
+      <div class="card-heading">
+        <div class="heading-icon">
+          <mat-icon>home_work</mat-icon>
+        </div>
+        <div>
+          <h2>Property Information</h2>
+          <p>Location, construction and occupancy details</p>
+        </div>
       </div>
 
       <div class="details-grid">
-        <div>
-          <span class="label">Property Type</span>
-          <strong>{{ quote.propertyInfo.propertyType }}</strong>
+        <div class="detail-item">
+          <span>Property Type</span>
+          <strong>{{ quote.propertyInfo.propertyType || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Property Address</span>
-          <strong>{{ quote.propertyInfo.propertyAddress }}</strong>
+        <div class="detail-item">
+          <span>Property Address</span>
+          <strong>{{ quote.propertyInfo.propertyAddress || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Year Built</span>
-          <strong>{{ quote.propertyInfo.yearBuilt }}</strong>
+        <div class="detail-item">
+          <span>Year Built</span>
+          <strong>{{ quote.propertyInfo.yearBuilt || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Building Area</span>
-          <strong>{{ quote.propertyInfo.buildingArea }} sq ft</strong>
+        <div class="detail-item">
+          <span>Building Area</span>
+          <strong>{{ quote.propertyInfo.buildingArea | number }} sq ft</strong>
         </div>
-
-        <div>
-          <span class="label">Number of Floors</span>
-          <strong>{{ quote.propertyInfo.numberOfFloors }}</strong>
+        <div class="detail-item">
+          <span>Number of Floors</span>
+          <strong>{{ quote.propertyInfo.numberOfFloors || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Construction Type</span>
-          <strong>{{ quote.propertyInfo.constructionType }}</strong>
+        <div class="detail-item">
+          <span>Construction Type</span>
+          <strong>{{ quote.propertyInfo.constructionType || '—' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Occupancy Type</span>
-          <strong>{{ quote.propertyInfo.occupancyType }}</strong>
+        <div class="detail-item">
+          <span>Occupancy Type</span>
+          <strong>{{ quote.propertyInfo.occupancyType || '—' }}</strong>
         </div>
       </div>
     </mat-card>
 
-    <!-- Coverage Information -->
-
-    <mat-card class="details-card">
-      <div class="section-header">
-        <mat-icon>security</mat-icon>
-        <h2>Coverage Information</h2>
+    <!-- Full coverage details -->
+    <mat-card class="info-card">
+      <div class="card-heading">
+        <div class="heading-icon">
+          <mat-icon>verified_user</mat-icon>
+        </div>
+        <div>
+          <h2>Coverage Information</h2>
+          <p>Requested coverage amounts and deductible</p>
+        </div>
       </div>
 
       <div class="details-grid">
-        <div>
-          <span class="label">Building Coverage</span>
-          <strong>
-            {{ quote.coverageInfo.buildingCoverage | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </strong>
+        <div class="detail-item">
+          <span>Building Coverage</span>
+          <strong>{{ quote.coverageInfo.buildingCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Business Personal Property</span>
-          <strong>
-            {{ quote.coverageInfo.businessPersonalProperty | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </strong>
+        <div class="detail-item">
+          <span>Business Personal Property</span>
+          <strong>{{ quote.coverageInfo.businessPersonalProperty | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Equipment Coverage</span>
-          <strong>
-            {{ quote.coverageInfo.equipmentCoverage | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </strong>
+        <div class="detail-item">
+          <span>Equipment Coverage</span>
+          <strong>{{ quote.coverageInfo.equipmentCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Business Interruption Coverage</span>
-          <strong>
-            {{
-              quote.coverageInfo.businessInterruptionCoverage | currency: 'USD' : 'symbol' : '1.0-0'
-            }}
-          </strong>
+        <div class="detail-item">
+          <span>Business Interruption</span>
+          <strong>{{ quote.coverageInfo.businessInterruptionCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
-
-        <div>
-          <span class="label">General Liability Coverage</span>
-          <strong>
-            {{ quote.coverageInfo.generalLiabilityCoverage | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </strong>
+        <div class="detail-item">
+          <span>General Liability</span>
+          <strong>{{ quote.coverageInfo.generalLiabilityCoverage | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
-
-        <div>
-          <span class="label">Deductible</span>
-          <strong>
-            {{ quote.coverageInfo.deductible | currency: 'USD' : 'symbol' : '1.0-0' }}
-          </strong>
+        <div class="detail-item">
+          <span>Deductible</span>
+          <strong>{{ quote.coverageInfo.deductible | currency:'USD':'symbol':'1.0-0' }}</strong>
         </div>
       </div>
     </mat-card>
+
+    <!-- Risk assessment: optional for older quotes -->
+    @if (quote.riskInfo; as risk) {
+      <mat-card class="info-card">
+        <div class="card-heading">
+          <div class="heading-icon">
+            <mat-icon>health_and_safety</mat-icon>
+          </div>
+          <div>
+            <h2>Risk Assessment</h2>
+            <p>Property protection and prior claims</p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Fire Alarm</span>
+            <strong>{{ risk.hasFireAlarm ? 'Installed' : 'Not selected' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Sprinkler System</span>
+            <strong>{{ risk.hasSprinklers ? 'Installed' : 'Not selected' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Security System</span>
+            <strong>{{ risk.hasSecuritySystem ? 'Installed' : 'Not selected' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Fire Extinguishers</span>
+            <strong>{{ risk.hasFireExtinguishers ? 'Available' : 'Not selected' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Previous Claims</span>
+            <strong>{{ risk.priorClaims || '—' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Claim Details</span>
+            <strong>{{ risk.claimsDetails || 'Not provided' }}</strong>
+          </div>
+          <div class="detail-item full-span">
+            <span>Additional Risk Notes</span>
+            <strong>{{ risk.riskNotes || 'Not provided' }}</strong>
+          </div>
+        </div>
+      </mat-card>
+    }
+
+    <!-- Additional policy information -->
+    @if (quote.additionalInfo; as additional) {
+      <mat-card class="info-card">
+        <div class="card-heading">
+          <div class="heading-icon">
+            <mat-icon>description</mat-icon>
+          </div>
+          <div>
+            <h2>Additional Policy Information</h2>
+            <p>Effective date, prior insurance and declarations</p>
+          </div>
+        </div>
+
+        <div class="details-grid">
+          <div class="detail-item">
+            <span>Requested Effective Date</span>
+            <strong>
+              {{ additional.effectiveDate ? (additional.effectiveDate | date:'mediumDate') : '—' }}
+            </strong>
+          </div>
+          <div class="detail-item">
+            <span>Prior Insurance</span>
+            <strong>{{ additional.priorInsurance || '—' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Previous Insurer</span>
+            <strong>{{ additional.previousInsurer || 'Not provided' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Additional Interests</span>
+            <strong>{{ additional.additionalInterests || 'Not provided' }}</strong>
+          </div>
+          <div class="detail-item">
+            <span>Declaration Accepted</span>
+            <strong>{{ additional.declarationsAccepted ? 'Yes' : 'No' }}</strong>
+          </div>
+        </div>
+      </mat-card>
+    }
+
+    <div class="bottom-actions">
+      <button mat-stroked-button (click)="goToQuotes()">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Quote List
+      </button>
+    </div>
+
   } @else {
     <mat-card class="not-found-card">
-      <mat-icon>error_outline</mat-icon>
-
+      <mat-icon>search_off</mat-icon>
       <h2>Quote Not Found</h2>
-
-      <p>The requested quote could not be found.</p>
-
-      <button mat-raised-button (click)="goToQuotes()">Back to Quote List</button>
+      <p>The quote may have been deleted or the ID may be invalid.</p>
+      <button mat-flat-button color="primary" (click)="goToQuotes()">
+        Return to Quote List
+      </button>
     </mat-card>
   }
+
 </div>
