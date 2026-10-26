@@ -35,6 +35,24 @@ export interface Quote {
     deductible: number;
   };
 
+    riskInfo?: {
+    hasFireAlarm: boolean;
+    hasSprinklers: boolean;
+    hasSecuritySystem: boolean;
+    hasFireExtinguishers: boolean;
+    priorClaims: string;
+    claimsDetails: string;
+    riskNotes: string;
+  };
+
+  additionalInfo?: {
+    effectiveDate: string;
+    priorInsurance: string;
+    previousInsurer: string;
+    additionalInterests: string;
+    declarationsAccepted: boolean;
+  };
+
   createdAt: string;
   updatedAt: string;
 }
