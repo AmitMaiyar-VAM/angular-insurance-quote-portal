@@ -125,12 +125,25 @@
           </div>
 
           <div class="step-actions">
-            <span></span>
-            <button mat-flat-button color="primary" type="button"
-              (click)="goToNextStep(stepper, businessForm)">
-              Next <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="saveProgress()"
+  >
+    Save Progress
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="businessForm.invalid"
+    (click)="goToNextStep(stepper, businessForm)"
+  >
+    Next
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
         </form>
       </mat-step>
 
@@ -224,14 +237,34 @@
           </div>
 
           <div class="step-actions">
-            <button mat-stroked-button type="button" (click)="goBack(stepper)">
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <button mat-flat-button color="primary" type="button"
-              (click)="goToNextStep(stepper, propertyForm)">
-              Next <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="goBack(stepper)"
+  >
+    <mat-icon>arrow_back</mat-icon>
+    Back
+  </button>
+
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="saveProgress()"
+  >
+    Save Progress
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="propertyForm.invalid"
+    (click)="goToNextStep(stepper, propertyForm)"
+  >
+    Next
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
         </form>
       </mat-step>
 
@@ -309,14 +342,34 @@
           </div>
 
           <div class="step-actions">
-            <button mat-stroked-button type="button" (click)="goBack(stepper)">
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <button mat-flat-button color="primary" type="button"
-              (click)="goToNextStep(stepper, coverageForm)">
-              Next <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="goBack(stepper)"
+  >
+    <mat-icon>arrow_back</mat-icon>
+    Back
+  </button>
+
+  <button
+    mat-stroked-button
+    type="button"
+    (click)="saveProgress()"
+  >
+    Save Progress
+  </button>
+
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    [disabled]="coverageForm.invalid"
+    (click)="goToNextStep(stepper, coverageForm)"
+  >
+    Review
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
+</div>
         </form>
       </mat-step>
 

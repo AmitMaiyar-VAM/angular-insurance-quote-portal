@@ -1,47 +1,48 @@
-<div class="dialog-container">
+<section class="dialog-container" aria-labelledby="add-quote-title">
   <div class="dialog-header">
     <div>
-      <h2>Add New Quote</h2>
+      <h2 mat-dialog-title id="add-quote-title">Add New Quote</h2>
       <p>Select a line of business to continue</p>
     </div>
 
-    <button class="close-button" type="button" (click)="cancel()" title="Close">
+    <button
+      mat-icon-button
+      class="close-button"
+      type="button"
+      aria-label="Close"
+      (click)="cancel()"
+    >
       <mat-icon>close</mat-icon>
     </button>
   </div>
 
-  <div class="dialog-content">
-    <label for="lob-select">Line of Business (LOB)</label>
-
-    <div class="select-wrapper">
-      <mat-icon class="select-leading-icon">business</mat-icon>
-
-      <select
-        id="lob-select"
-        class="lob-select"
-        [value]="selectedBusiness"
-        (change)="selectBusiness($any($event.target).value)"
-      >
-        <option value="" disabled>Select a line of business</option>
-        <option value="Commercial Property">Commercial Property</option>
-        <option value="Commercial Auto">Commercial Auto</option>
-        <option value="Business Owner Policy">Business Owner's Policy (BOP)</option>
-        <option value="Workers Compensation">Workers Compensation</option>
-        <option value="Commercial General Liability">Commercial General Liability (CGL)</option>
-        <option value="Professional Liability">Professional Liability (E&O)</option>
-      </select>
-
-      <mat-icon class="select-arrow">expand_more</mat-icon>
-    </div>
-
+  <mat-dialog-content class="dialog-content">
+    <mat-form-field appearance="outline" class="lob-field">
+      <mat-label>Line of Business (LOB)</mat-label>
+      <mat-select [value]="selectedBusiness" (selectionChange)="selectBusiness($event.value)">
+        <mat-option value="Commercial Auto">Commercial Auto</mat-option>
+        <mat-option value="Commercial Property">Commercial Property</mat-option>
+        <mat-option value="Business Owner Policy">Business Owner's Policy (BOP)</mat-option>
+        <mat-option value="Workers Compensation">Workers Compensation</mat-option>
+        <mat-option value="Commercial General Liability"
+          >Commercial General Liability (CGL)</mat-option
+        >
+        <mat-option value="Professional Liability">Professional Liability (E&amp;O)</mat-option>
+      </mat-select>
+    </mat-form-field>
     <p class="field-hint">Choose the insurance product for which you want to create a quote.</p>
-  </div>
+  </mat-dialog-content>
 
-  <div class="dialog-footer">
-    <button class="cancel-button" type="button" (click)="cancel()">Cancel</button>
-
-    <button class="proceed-button" type="button" [disabled]="!selectedBusiness" (click)="proceed()">
+  <mat-dialog-actions class="dialog-footer" align="end">
+    <button mat-button class="cancel-button" type="button" (click)="cancel()">Cancel</button>
+    <button
+      mat-flat-button
+      class="proceed-button"
+      type="button"
+      [disabled]="!selectedBusiness"
+      (click)="proceed()"
+    >
       Proceed
     </button>
-  </div>
-</div>
+  </mat-dialog-actions>
+</section>

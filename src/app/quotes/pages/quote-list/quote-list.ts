@@ -1,7 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 import { AddQuoteDialog } from '../../components/add-quote-dialog/add-quote-dialog';
@@ -11,11 +15,12 @@ import { QuoteService } from '../../services/quote.service';
 @Component({
   selector: 'app-quote-list',
   standalone: true,
-  imports: [MatIconModule, MatDialogModule, DatePipe],
+  imports: [MatIconModule, MatInputModule, MatDialogModule, MatButtonModule, MatCardModule, MatTableModule, DatePipe],
   templateUrl: './quote-list.html',
   styleUrl: './quote-list.css',
 })
 export class QuoteList implements OnInit {
+  readonly displayedColumns = ['quoteId', 'businessName', 'businessType', 'createdAt', 'status', 'actions'];
   quotes: Quote[] = [];
 
   constructor(

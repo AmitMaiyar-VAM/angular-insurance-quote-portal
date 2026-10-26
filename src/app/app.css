@@ -1,53 +1,81 @@
 :host {
   display: flex;
-  flex-direction: column;
   min-height: 100vh;
+  flex-direction: column;
 }
 
-/* Main area below the header */
 .app-layout {
   display: flex;
-  flex: 1;
-  min-height: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background: #f5f9fd;
+  flex: 1 0 auto;
+  min-height: calc(100vh - 76px);
+  align-items: stretch;
+  background: linear-gradient(to right, #344d66 0 236px, #fff 236px 100%);
 }
 
-/* Left sidebar */
 app-left-menu {
   display: block;
-  flex: 0 0 220px;
-  width: 220px;
   align-self: stretch;
-  background: #eaf5ff;
-  border-right: 1px solid #d5e8f9;
+  flex: 0 0 236px;
+  width: 236px;
+  background: transparent;
+  border-right: 1px solid #1e3044;
 }
 
-/* Dashboard and routed pages */
-.main-content {
-  flex: 1;
+.page-column {
+  display: flex;
   min-width: 0;
-  margin-left: 0;
-  padding: 28px;
-  box-sizing: border-box;
-  background: #f5f9fd;
+  min-height: calc(100vh - 76px);
+  flex: 1;
+  flex-direction: column;
 }
 
-/* Keep footer after the main content */
+.main-content {
+  min-width: 0;
+  flex: 1 0 auto;
+  padding: 32px clamp(20px, 3vw, 44px);
+  background: #fff;
+}
+
 app-footer {
   display: block;
   flex-shrink: 0;
 }
 
-/* Responsive layout */
 @media (max-width: 768px) {
   app-left-menu {
-    flex-basis: 180px;
-    width: 180px;
+    flex-basis: 184px;
+    width: 184px;
+  }
+
+  .app-layout {
+    background: linear-gradient(to right, #344d66 0 184px, #fff 184px 100%);
   }
 
   .main-content {
-    padding: 16px;
+    padding: 24px 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .app-layout {
+    min-height: 0;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  app-left-menu {
+    width: 100%;
+    flex: 0 0 auto;
+    border-right: 0;
+    border-bottom: 1px solid #e2ebf5;
+    background: #344d66;
+  }
+
+  .page-column {
+    min-height: calc(100vh - 120px);
+  }
+
+  .main-content {
+    padding: 20px 14px 28px;
   }
 }
