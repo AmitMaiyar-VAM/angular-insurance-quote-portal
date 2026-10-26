@@ -1,83 +1,76 @@
+:host {
+  display: block;
+}
+
 .app-header {
-  height: 64px;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 24px;
+  min-height: 72px;
+  padding: 0 28px;
+  background: linear-gradient(100deg, #e3f2fd 0%, #f0f7ff 100%);
+  border-bottom: 1px solid #c9e2fa;
+  box-shadow: 0 2px 8px rgb(25 118 210 / 7%);
   box-sizing: border-box;
-
-  background: #ffffff;
-  border-bottom: 1px solid #e5e7eb;
-
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
 }
 
-/* Left side */
-
+/* Left section */
 .header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #1976d2;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 3px 8px rgb(25 118 210 / 20%);
+}
+
+.application-name {
+  color: #174a7e;
+  font-size: 19px;
+  font-weight: 650;
+  letter-spacing: 0.1px;
+}
+
+/* Right section */
+.header-right {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.logo {
-  width: 38px;
-  height: 38px;
-
+.header-icon-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border-radius: 8px;
-
-  background: #1976d2;
-  color: white;
-
-  font-size: 16px;
-  font-weight: 700;
-}
-
-.application-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* Right side */
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-icon-button {
   width: 40px;
   height: 40px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: none;
-  background: transparent;
-
-  border-radius: 50%;
-
-  color: #4b5563;
-
+  border: 1px solid #d0e5f8;
+  border-radius: 10px;
+  background: #f8fbff;
+  color: #1976d2;
   cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .header-icon-button:hover {
-  background: #f3f4f6;
+  background: #d7ebff;
+  border-color: #a9d1f5;
 }
 
 .header-icon-button mat-icon {
@@ -85,37 +78,72 @@
 }
 
 /* Profile */
-
 .profile {
   display: flex;
   align-items: center;
-  gap: 9px;
-
+  gap: 10px;
   margin-left: 8px;
-  padding-left: 12px;
-
-  border-left: 1px solid #e5e7eb;
+  padding: 6px 12px 6px 7px;
+  border: 1px solid #d0e5f8;
+  border-radius: 24px;
+  background: #f8fbff;
 }
 
 .profile-avatar {
-  width: 34px;
-  height: 34px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  background: #c5e2fb;
+  color: #145da0;
+  font-size: 15px;
+  font-weight: 700;
+}
 
-  background: #e3f2fd;
-  color: #1565c0;
-
+.profile-name {
+  color: #294765;
   font-size: 14px;
   font-weight: 600;
 }
 
-.profile-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
+/* Responsive */
+@media (max-width: 600px) {
+  .app-header {
+    min-height: 64px;
+    padding: 0 12px;
+  }
+
+  .header-left {
+    gap: 9px;
+  }
+
+  .logo {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  .application-name {
+    font-size: 14px;
+  }
+
+  .header-right {
+    gap: 6px;
+  }
+
+  .header-icon-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .profile {
+    margin-left: 0;
+    padding-right: 8px;
+  }
+
+  .profile-name {
+    display: none;
+  }
 }

@@ -1,29 +1,53 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
 }
 
+/* Main area below the header */
 .app-layout {
   display: flex;
-
-  min-height: calc(100vh - 109px);
-
-  padding-top: 64px;
-  padding-bottom: 45px;
-
+  flex: 1;
+  min-height: 0;
+  padding: 0;
   box-sizing: border-box;
+  background: #f5f9fd;
 }
 
+/* Left sidebar */
+app-left-menu {
+  display: block;
+  flex: 0 0 220px;
+  width: 220px;
+  align-self: stretch;
+  background: #eaf5ff;
+  border-right: 1px solid #d5e8f9;
+}
+
+/* Dashboard and routed pages */
 .main-content {
   flex: 1;
-
-  margin-left: 230px;
-
-  padding: 24px;
-
+  min-width: 0;
+  margin-left: 0;
+  padding: 28px;
   box-sizing: border-box;
+  background: #f5f9fd;
+}
 
-  background: #f5f7fa;
+/* Keep footer after the main content */
+app-footer {
+  display: block;
+  flex-shrink: 0;
+}
 
-  min-height: calc(100vh - 109px);
+/* Responsive layout */
+@media (max-width: 768px) {
+  app-left-menu {
+    flex-basis: 180px;
+    width: 180px;
+  }
+
+  .main-content {
+    padding: 16px;
+  }
 }
