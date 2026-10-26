@@ -1,33 +1,34 @@
-<aside class="left-menu">
-  <nav class="menu">
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="menu-item"
-    >
-      <mat-icon>dashboard</mat-icon>
-      <span>Dashboard</span>
-    </a>
+<mat-nav-list class="left-menu menu" aria-label="Main navigation">
+  <a
+    mat-list-item
+    routerLink="/dashboard"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+  >
+    <mat-icon matListItemIcon>dashboard</mat-icon>
+    <span matListItemTitle>Dashboard</span>
+  </a>
 
-    <a
-      routerLink="/quotes"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="menu-item"
-    >
-      <mat-icon>description</mat-icon>
-      <span>Quote List</span>
-    </a>
+  <a
+    mat-list-item
+    routerLink="/quotes"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+  >
+    <mat-icon matListItemIcon>description</mat-icon>
+    <span matListItemTitle>Quote List</span>
+  </a>
 
-    <a
-      routerLink="/faq"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="menu-item"
-    >
-      <mat-icon>help_outline</mat-icon>
-      <span>FAQ</span>
-    </a>
-  </nav>
-</aside>
+  <a
+    mat-list-item
+    routerLink="/faq"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="menu-item"
+  >
+    <mat-icon matListItemIcon>help_outline</mat-icon>
+    <span matListItemTitle>FAQ</span>
+  </a>
+</mat-nav-list>

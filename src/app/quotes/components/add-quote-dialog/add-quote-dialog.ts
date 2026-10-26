@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-quote-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatIconModule],
+  imports: [MatDialogModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatSelectModule],
   templateUrl: './add-quote-dialog.html',
   styleUrl: './add-quote-dialog.css',
 })
