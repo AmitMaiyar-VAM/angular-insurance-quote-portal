@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -41,7 +42,7 @@ import { QuoteService } from '../../services/quote.service';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    DatePipe
+    DatePipe,
   ],
   templateUrl: './quote-wizard.html',
   styleUrl: './quote-wizard.css',
@@ -70,27 +71,30 @@ export class QuoteWizard {
       businessType: ['', Validators.required],
       contactPerson: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [
-        Validators.required,
-        Validators.pattern(/^[0-9]{10}$/),
-      ]],
+      phone: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+      ],
       address: ['', Validators.required],
       city: ['', Validators.required],
       state: ['', Validators.required],
-      zipCode: ['', [
-        Validators.required,
-        Validators.pattern(/^[0-9]{5,6}$/),
-      ]],
+      zipCode: [
+        '',
+        [Validators.required, Validators.pattern(/^[0-9]{5,6}$/)],
+      ],
     });
 
     this.propertyForm = this.fb.group({
       propertyType: ['', Validators.required],
       propertyAddress: ['', Validators.required],
-      yearBuilt: ['', [
-        Validators.required,
-        Validators.min(1800),
-        Validators.max(new Date().getFullYear()),
-      ]],
+      yearBuilt: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1800),
+          Validators.max(new Date().getFullYear()),
+        ],
+      ],
       buildingArea: ['', [Validators.required, Validators.min(1)]],
       numberOfFloors: ['', [Validators.required, Validators.min(1)]],
       constructionType: ['', Validators.required],
@@ -99,19 +103,19 @@ export class QuoteWizard {
 
     this.coverageForm = this.fb.group({
       buildingCoverage: ['', [Validators.required, Validators.min(1)]],
-      businessPersonalProperty: ['', [
-        Validators.required,
-        Validators.min(1),
-      ]],
+      businessPersonalProperty: [
+        '',
+        [Validators.required, Validators.min(1)],
+      ],
       equipmentCoverage: [0, [Validators.required, Validators.min(0)]],
       businessInterruptionCoverage: [
         0,
         [Validators.required, Validators.min(0)],
       ],
-      generalLiabilityCoverage: ['', [
-        Validators.required,
-        Validators.min(1),
-      ]],
+      generalLiabilityCoverage: [
+        '',
+        [Validators.required, Validators.min(1)],
+      ],
       deductible: ['', [Validators.required, Validators.min(0)]],
     });
 
@@ -140,6 +144,16 @@ export class QuoteWizard {
     }
   }
 
+  private getStepForms(): FormGroup[] {
+    return [
+      this.businessForm,
+      this.propertyForm,
+      this.coverageForm,
+      this.riskForm,
+      this.additionalForm,
+    ];
+  }
+
   private loadQuote(id: string): void {
     const quote = this.quoteService.getQuoteById(id);
 
@@ -155,7 +169,7 @@ export class QuoteWizard {
     this.propertyForm.patchValue(quote.propertyInfo);
     this.coverageForm.patchValue(quote.coverageInfo);
 
-    // Older quotes may not contain the new sections.
+    // Support older quotes without these sections.
     this.riskForm.patchValue(quote.riskInfo ?? {});
     this.additionalForm.patchValue(quote.additionalInfo ?? {});
 
@@ -167,29 +181,49 @@ export class QuoteWizard {
       });
     }
 
+    // Stored step is 1-based; Material selectedIndex is 0-based.
     this.savedStep = Math.min(
       5,
       Math.max(0, (quote.currentStep ?? 1) - 1),
     );
   }
 
-  goToNextStep(stepper: MatStepper, form: FormGroup): void {
-    form.markAllAsTouched();
+  /**
+   * Shared Next/Review action for steps 1–5.
+   * Validates the current form, saves the draft,
+   * then moves to the next step.
+   */
+  continueCurrentStep(stepper: MatStepper): void {
+    const currentForm = this.getStepForms()[stepper.selectedIndex];
 
-    if (form.invalid) {
+    if (!currentForm) {
+      return;
+    }
+
+    currentForm.markAllAsTouched();
+
+    if (currentForm.invalid) {
       this.errorMessage =
         'Please complete the required fields correctly before continuing.';
       this.saveMessage = '';
       return;
     }
 
-    // Save the next step as the resume point.
+    // Save the step that the user will resume on.
     this.saveDraft(stepper.selectedIndex + 2);
+
     stepper.next();
   }
 
+  /**
+   * Shared Back action.
+   * Saves the current data and records the step being returned to.
+   */
   goBack(stepper: MatStepper): void {
-    // Save the draft and resume at the step we're returning to.
+    if (stepper.selectedIndex === 0) {
+      return;
+    }
+
     this.saveDraft(Math.max(1, stepper.selectedIndex));
     stepper.previous();
   }
@@ -203,12 +237,12 @@ export class QuoteWizard {
       ? this.quoteService.getQuoteById(this.quoteId)
       : undefined;
 
+    const effectiveDate = this.additionalForm.value.effectiveDate;
+
     const additionalInfo = {
       ...this.additionalForm.getRawValue(),
-      effectiveDate: this.additionalForm.value.effectiveDate
-        ? new Date(
-            this.additionalForm.value.effectiveDate,
-          ).toISOString()
+      effectiveDate: effectiveDate
+        ? new Date(effectiveDate).toISOString()
         : '',
     };
 
@@ -234,13 +268,7 @@ export class QuoteWizard {
   }
 
   submitQuote(): void {
-    const forms = [
-      this.businessForm,
-      this.propertyForm,
-      this.coverageForm,
-      this.riskForm,
-      this.additionalForm,
-    ];
+    const forms = this.getStepForms();
 
     forms.forEach(form => form.markAllAsTouched());
 
@@ -255,11 +283,17 @@ export class QuoteWizard {
       ? this.quoteService.getQuoteById(this.quoteId)
       : undefined;
 
+    const effectiveDate = this.additionalForm.value.effectiveDate;
+
+    if (!effectiveDate) {
+      this.additionalForm.get('effectiveDate')?.markAsTouched();
+      this.errorMessage = 'Please select an effective date.';
+      return;
+    }
+
     const additionalInfo = {
       ...this.additionalForm.getRawValue(),
-      effectiveDate: new Date(
-        this.additionalForm.value.effectiveDate,
-      ).toISOString(),
+      effectiveDate: new Date(effectiveDate).toISOString(),
     };
 
     const quote: Quote = {

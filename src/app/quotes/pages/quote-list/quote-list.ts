@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { MatCard } from '@angular/material/card';
 
 import { AddQuoteDialog } from '../../components/add-quote-dialog/add-quote-dialog';
 import { Quote } from '../../models/quote.model';
 import { QuoteService } from '../../services/quote.service';
-
+imports: [MatIconModule, MatDialogModule, DatePipe, MatCard]
 @Component({
   selector: 'app-quote-list',
   standalone: true,
