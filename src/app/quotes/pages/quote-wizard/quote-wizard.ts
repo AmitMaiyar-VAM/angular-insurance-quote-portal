@@ -228,6 +228,10 @@ export class QuoteWizard {
     stepper.previous();
   }
 
+  saveProgress(currentStep: number): void {
+    this.saveDraft(currentStep);
+  }
+
   private saveDraft(currentStep: number): void {
     const existingQuote = this.quoteId
       ? this.quoteService.getQuoteById(this.quoteId)
