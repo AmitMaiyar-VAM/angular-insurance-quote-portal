@@ -1,3 +1,4 @@
+
 <div class="wizard-container">
   @if (saveMessage) {
     <div class="save-message" role="status">
@@ -123,27 +124,6 @@
               }
             </mat-form-field>
           </div>
-
-          <div class="step-actions">
-  <button
-    mat-stroked-button
-    type="button"
-    (click)="saveProgress()"
-  >
-    Save Progress
-  </button>
-
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="businessForm.invalid"
-    (click)="goToNextStep(stepper, businessForm)"
-  >
-    Next
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
         </form>
       </mat-step>
 
@@ -235,40 +215,10 @@
               }
             </mat-form-field>
           </div>
-
-          <div class="step-actions">
-  <button
-    mat-stroked-button
-    type="button"
-    (click)="goBack(stepper)"
-  >
-    <mat-icon>arrow_back</mat-icon>
-    Back
-  </button>
-
-  <button
-    mat-stroked-button
-    type="button"
-    (click)="saveProgress()"
-  >
-    Save Progress
-  </button>
-
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="propertyForm.invalid"
-    (click)="goToNextStep(stepper, propertyForm)"
-  >
-    Next
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
         </form>
       </mat-step>
 
-      <!-- STEP 3: COVERAGE INFORMATION -->
+      <!-- STEP 3: COVERAGE SELECTION -->
       <mat-step [stepControl]="coverageForm">
         <ng-template matStepLabel>Coverage Selection</ng-template>
 
@@ -292,7 +242,8 @@
             <mat-form-field appearance="outline">
               <mat-label>Business Personal Property</mat-label>
               <span matTextPrefix>$&nbsp;</span>
-              <input matInput type="number" formControlName="businessPersonalProperty" />
+              <input matInput type="number"
+                formControlName="businessPersonalProperty" />
               @if (coverageForm.get('businessPersonalProperty')?.invalid &&
                    coverageForm.get('businessPersonalProperty')?.touched) {
                 <mat-error>Enter an amount greater than zero.</mat-error>
@@ -323,7 +274,8 @@
             <mat-form-field appearance="outline">
               <mat-label>General Liability</mat-label>
               <span matTextPrefix>$&nbsp;</span>
-              <input matInput type="number" formControlName="generalLiabilityCoverage" />
+              <input matInput type="number"
+                formControlName="generalLiabilityCoverage" />
               @if (coverageForm.get('generalLiabilityCoverage')?.invalid &&
                    coverageForm.get('generalLiabilityCoverage')?.touched) {
                 <mat-error>Enter an amount greater than zero.</mat-error>
@@ -340,36 +292,6 @@
               }
             </mat-form-field>
           </div>
-
-          <div class="step-actions">
-  <button
-    mat-stroked-button
-    type="button"
-    (click)="goBack(stepper)"
-  >
-    <mat-icon>arrow_back</mat-icon>
-    Back
-  </button>
-
-  <button
-    mat-stroked-button
-    type="button"
-    (click)="saveProgress()"
-  >
-    Save Progress
-  </button>
-
-  <button
-    mat-flat-button
-    color="primary"
-    type="button"
-    [disabled]="coverageForm.invalid"
-    (click)="goToNextStep(stepper, coverageForm)"
-  >
-    Review
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</div>
         </form>
       </mat-step>
 
@@ -387,20 +309,27 @@
             <mat-checkbox formControlName="hasFireAlarm">
               Fire alarm installed
             </mat-checkbox>
+
             <mat-checkbox formControlName="hasSprinklers">
               Sprinkler system installed
             </mat-checkbox>
+
             <mat-checkbox formControlName="hasSecuritySystem">
               Security system installed
             </mat-checkbox>
+
             <mat-checkbox formControlName="hasFireExtinguishers">
               Fire extinguishers available
             </mat-checkbox>
           </div>
 
           <div class="radio-section">
-            <label class="group-label">Have there been previous insurance claims?</label>
-            <mat-radio-group formControlName="priorClaims" class="radio-options">
+            <label class="group-label">
+              Have there been previous insurance claims?
+            </label>
+
+            <mat-radio-group formControlName="priorClaims"
+              class="radio-options">
               <mat-radio-button value="Yes">Yes</mat-radio-button>
               <mat-radio-button value="No">No</mat-radio-button>
             </mat-radio-group>
@@ -422,7 +351,8 @@
                 <mat-label>Claim history and details</mat-label>
                 <textarea matInput rows="4"
                   formControlName="claimsDetails"
-                  placeholder="Describe previous claims, if applicable"></textarea>
+                  placeholder="Describe previous claims, if applicable">
+                </textarea>
               </mat-form-field>
             </mat-expansion-panel>
 
@@ -436,20 +366,11 @@
                 <mat-label>Risk notes</mat-label>
                 <textarea matInput rows="4"
                   formControlName="riskNotes"
-                  placeholder="Add other relevant property details"></textarea>
+                  placeholder="Add other relevant property details">
+                </textarea>
               </mat-form-field>
             </mat-expansion-panel>
           </mat-accordion>
-
-          <div class="step-actions">
-            <button mat-stroked-button type="button" (click)="goBack(stepper)">
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <button mat-flat-button color="primary" type="button"
-              (click)="goToNextStep(stepper, riskForm)">
-              Next <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
         </form>
       </mat-step>
 
@@ -463,11 +384,16 @@
           <div class="step-content">
             <mat-form-field appearance="outline">
               <mat-label>Requested Effective Date</mat-label>
-              <input matInput [matDatepicker]="effectivePicker"
+              <input matInput
+                [matDatepicker]="effectivePicker"
                 formControlName="effectiveDate" />
+
               <mat-datepicker-toggle matIconSuffix
-                [for]="effectivePicker"></mat-datepicker-toggle>
+                [for]="effectivePicker">
+              </mat-datepicker-toggle>
+
               <mat-datepicker #effectivePicker></mat-datepicker>
+
               @if (additionalForm.get('effectiveDate')?.invalid &&
                    additionalForm.get('effectiveDate')?.touched) {
                 <mat-error>Effective date is required.</mat-error>
@@ -475,11 +401,16 @@
             </mat-form-field>
 
             <div class="radio-section">
-              <label class="group-label">Does the business have prior insurance?</label>
-              <mat-radio-group formControlName="priorInsurance" class="radio-options">
+              <label class="group-label">
+                Does the business have prior insurance?
+              </label>
+
+              <mat-radio-group formControlName="priorInsurance"
+                class="radio-options">
                 <mat-radio-button value="Yes">Yes</mat-radio-button>
                 <mat-radio-button value="No">No</mat-radio-button>
               </mat-radio-group>
+
               @if (additionalForm.get('priorInsurance')?.invalid &&
                    additionalForm.get('priorInsurance')?.touched) {
                 <p class="field-error">Please select Yes or No.</p>
@@ -510,16 +441,6 @@
               Please confirm the declaration before continuing.
             </p>
           }
-
-          <div class="step-actions">
-            <button mat-stroked-button type="button" (click)="goBack(stepper)">
-              <mat-icon>arrow_back</mat-icon> Back
-            </button>
-            <button mat-flat-button color="primary" type="button"
-              (click)="goToNextStep(stepper, additionalForm)">
-              Review <mat-icon>arrow_forward</mat-icon>
-            </button>
-          </div>
         </form>
       </mat-step>
 
@@ -538,11 +459,17 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>Business Information</mat-panel-title>
               </mat-expansion-panel-header>
-              <p><strong>Business:</strong> {{ businessForm.value.businessName }}</p>
-              <p><strong>Type:</strong> {{ businessForm.value.businessType }}</p>
-              <p><strong>Contact:</strong> {{ businessForm.value.contactPerson }}</p>
-              <p><strong>Email:</strong> {{ businessForm.value.email }}</p>
-              <p><strong>Phone:</strong> {{ businessForm.value.phone }}</p>
+
+              <p><strong>Business:</strong>
+                {{ businessForm.value.businessName }}</p>
+              <p><strong>Type:</strong>
+                {{ businessForm.value.businessType }}</p>
+              <p><strong>Contact:</strong>
+                {{ businessForm.value.contactPerson }}</p>
+              <p><strong>Email:</strong>
+                {{ businessForm.value.email }}</p>
+              <p><strong>Phone:</strong>
+                {{ businessForm.value.phone }}</p>
               <p><strong>Address:</strong>
                 {{ businessForm.value.address }},
                 {{ businessForm.value.city }},
@@ -555,66 +482,118 @@
               <mat-expansion-panel-header>
                 <mat-panel-title>Property Information</mat-panel-title>
               </mat-expansion-panel-header>
-              <p><strong>Type:</strong> {{ propertyForm.value.propertyType }}</p>
-              <p><strong>Address:</strong> {{ propertyForm.value.propertyAddress }}</p>
-              <p><strong>Year Built:</strong> {{ propertyForm.value.yearBuilt }}</p>
-              <p><strong>Building Area:</strong> {{ propertyForm.value.buildingArea }} sq ft</p>
-              <p><strong>Floors:</strong> {{ propertyForm.value.numberOfFloors }}</p>
-              <p><strong>Construction:</strong> {{ propertyForm.value.constructionType }}</p>
-              <p><strong>Occupancy:</strong> {{ propertyForm.value.occupancyType }}</p>
+
+              <p><strong>Type:</strong>
+                {{ propertyForm.value.propertyType }}</p>
+              <p><strong>Address:</strong>
+                {{ propertyForm.value.propertyAddress }}</p>
+              <p><strong>Year Built:</strong>
+                {{ propertyForm.value.yearBuilt }}</p>
+              <p><strong>Building Area:</strong>
+                {{ propertyForm.value.buildingArea }} sq ft</p>
+              <p><strong>Floors:</strong>
+                {{ propertyForm.value.numberOfFloors }}</p>
+              <p><strong>Construction:</strong>
+                {{ propertyForm.value.constructionType }}</p>
+              <p><strong>Occupancy:</strong>
+                {{ propertyForm.value.occupancyType }}</p>
             </mat-expansion-panel>
 
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Coverage Information</mat-panel-title>
               </mat-expansion-panel-header>
-              <p><strong>Building:</strong> ${{ coverageForm.value.buildingCoverage }}</p>
-              <p><strong>Business Property:</strong> ${{ coverageForm.value.businessPersonalProperty }}</p>
-              <p><strong>Equipment:</strong> ${{ coverageForm.value.equipmentCoverage }}</p>
-              <p><strong>Business Interruption:</strong> ${{ coverageForm.value.businessInterruptionCoverage }}</p>
-              <p><strong>General Liability:</strong> ${{ coverageForm.value.generalLiabilityCoverage }}</p>
-              <p><strong>Deductible:</strong> ${{ coverageForm.value.deductible }}</p>
+
+              <p><strong>Building:</strong>
+                ${{ coverageForm.value.buildingCoverage }}</p>
+              <p><strong>Business Property:</strong>
+                ${{ coverageForm.value.businessPersonalProperty }}</p>
+              <p><strong>Equipment:</strong>
+                ${{ coverageForm.value.equipmentCoverage }}</p>
+              <p><strong>Business Interruption:</strong>
+                ${{ coverageForm.value.businessInterruptionCoverage }}</p>
+              <p><strong>General Liability:</strong>
+                ${{ coverageForm.value.generalLiabilityCoverage }}</p>
+              <p><strong>Deductible:</strong>
+                ${{ coverageForm.value.deductible }}</p>
             </mat-expansion-panel>
 
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Risk Assessment</mat-panel-title>
               </mat-expansion-panel-header>
-              <p><strong>Fire Alarm:</strong> {{ riskForm.value.hasFireAlarm ? 'Yes' : 'No' }}</p>
-              <p><strong>Sprinklers:</strong> {{ riskForm.value.hasSprinklers ? 'Yes' : 'No' }}</p>
-              <p><strong>Security System:</strong> {{ riskForm.value.hasSecuritySystem ? 'Yes' : 'No' }}</p>
-              <p><strong>Fire Extinguishers:</strong> {{ riskForm.value.hasFireExtinguishers ? 'Yes' : 'No' }}</p>
-              <p><strong>Previous Claims:</strong> {{ riskForm.value.priorClaims }}</p>
-              <p><strong>Claim Details:</strong> {{ riskForm.value.claimsDetails || 'Not provided' }}</p>
-              <p><strong>Risk Notes:</strong> {{ riskForm.value.riskNotes || 'Not provided' }}</p>
+
+              <p><strong>Fire Alarm:</strong>
+                {{ riskForm.value.hasFireAlarm ? 'Yes' : 'No' }}</p>
+              <p><strong>Sprinklers:</strong>
+                {{ riskForm.value.hasSprinklers ? 'Yes' : 'No' }}</p>
+              <p><strong>Security System:</strong>
+                {{ riskForm.value.hasSecuritySystem ? 'Yes' : 'No' }}</p>
+              <p><strong>Fire Extinguishers:</strong>
+                {{ riskForm.value.hasFireExtinguishers ? 'Yes' : 'No' }}</p>
+              <p><strong>Previous Claims:</strong>
+                {{ riskForm.value.priorClaims }}</p>
+              <p><strong>Claim Details:</strong>
+                {{ riskForm.value.claimsDetails || 'Not provided' }}</p>
+              <p><strong>Risk Notes:</strong>
+                {{ riskForm.value.riskNotes || 'Not provided' }}</p>
             </mat-expansion-panel>
 
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Additional Information</mat-panel-title>
               </mat-expansion-panel-header>
+
               <p><strong>Effective Date:</strong>
                 {{ additionalForm.value.effectiveDate | date:'mediumDate' }}
               </p>
-              <p><strong>Prior Insurance:</strong> {{ additionalForm.value.priorInsurance }}</p>
-              <p><strong>Previous Insurer:</strong> {{ additionalForm.value.previousInsurer || 'Not provided' }}</p>
-              <p><strong>Additional Interests:</strong> {{ additionalForm.value.additionalInterests || 'Not provided' }}</p>
+              <p><strong>Prior Insurance:</strong>
+                {{ additionalForm.value.priorInsurance }}</p>
+              <p><strong>Previous Insurer:</strong>
+                {{ additionalForm.value.previousInsurer || 'Not provided' }}
+              </p>
+              <p><strong>Additional Interests:</strong>
+                {{ additionalForm.value.additionalInterests || 'Not provided' }}
+              </p>
               <p><strong>Declaration:</strong> Confirmed</p>
             </mat-expansion-panel>
           </mat-accordion>
         </div>
-
-        <div class="step-actions">
-          <button mat-stroked-button type="button" (click)="goBack(stepper)">
-            <mat-icon>arrow_back</mat-icon> Back
-          </button>
-          <button mat-flat-button color="primary" type="button"
-            (click)="submitQuote()">
-            <mat-icon>check_circle</mat-icon> Submit Quote
-          </button>
-        </div>
       </mat-step>
-
     </mat-stepper>
+
+    <!-- SHARED NAVIGATION FOOTER -->
+    <div class="step-actions">
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="stepper.selectedIndex === 0"
+        (click)="goBack(stepper)">
+        <mat-icon>arrow_back</mat-icon>
+        Back
+      </button>
+
+      <span class="action-spacer"></span>
+
+      @if (stepper.selectedIndex < 5) {
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="continueCurrentStep(stepper)">
+          {{ stepper.selectedIndex === 4 ? 'Review' : 'Next' }}
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      } @else {
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          (click)="submitQuote()">
+          <mat-icon>check_circle</mat-icon>
+          Submit Quote
+        </button>
+      }
+    </div>
   </mat-card>
 </div>
